@@ -1,0 +1,48 @@
+.ui-menu {
+  z-index: 9999;
+  min-width: 150px;
+  padding: 0.25rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--bg-muted);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-menu);
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.35rem 0.625rem;
+    border: none;
+    border-radius: var(--radius-md);
+    background: transparent;
+    font: inherit;
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    text-align: left;
+    outline: none;
+    transition: background-color 0.1s, color 0.1s;
+
+    .material-icons {
+      font-size: 14px;
+      flex-shrink: 0;
+      color: inherit;
+    }
+
+    /* Radix sets data-highlighted for both pointer hover and keyboard focus. */
+    &[data-highlighted] {
+      background-color: var(--bg-subtle);
+      color: var(--text-primary);
+    }
+
+    &--danger {
+      color: var(--text-red);
+
+      &[data-highlighted] {
+        background-color: var(--bg-red-subtle);
+        color: var(--text-error);
+      }
+    }
+  }
+}

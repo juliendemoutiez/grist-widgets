@@ -1,0 +1,67 @@
+/*
+ * Design tokens.
+ *
+ * These replace the La Suite / Cunningham token set the widgets were
+ * originally built against. The values are kept identical so the widgets
+ * look the same, but the names are ours and there is no dependency to
+ * install — edit this file to re-theme everything.
+ */
+:root {
+  /* Brand ramp */
+  --brand-050: #eef1fa;
+  --brand-500: #6969df;
+  --brand-550: #5e5cd0;
+  --brand-600: #534fc2;
+  --brand-700: #3e3b98;
+
+  /* Neutral ramp */
+  --gray-000: #ffffff;
+  --gray-025: #f8f8f9;
+  --gray-050: #f0f0f3;
+  --gray-100: #e2e2ea;
+  --gray-150: #d3d4e0;
+  --gray-550: #69697d;
+  --gray-600: #5d5d70;
+  --gray-850: #25252f;
+
+  /* Accent ramp */
+  --blue-150: #c1d7f0;
+  --blue-500: #4279b9;
+  --green-500: #008948;
+  --red-150: #f1cdcb;
+  --red-500: #da3b49;
+  --error-700: #910c06;
+
+  /* ── Semantic: backgrounds ─────────────────────────────────────────── */
+  --bg-page: var(--gray-025);
+  --bg-surface: var(--gray-000);
+  --bg-subtle: var(--gray-050);
+  --bg-muted: var(--gray-100);
+  --bg-muted-hover: var(--gray-150);
+  --bg-brand: var(--brand-550);
+  --bg-brand-subtle: var(--brand-050);
+  --bg-blue-subtle: var(--blue-150);
+  --bg-red-subtle: var(--red-150);
+  --overlay: rgb(37 37 47 / 6%);
+
+  /* ── Semantic: text ────────────────────────────────────────────────── */
+  --text-primary: var(--gray-850);
+  --text-secondary: var(--gray-600);
+  --text-tertiary: var(--gray-550);
+  --text-brand: var(--brand-700);
+  --text-brand-secondary: var(--brand-600);
+  --text-brand-tertiary: var(--brand-550);
+  --text-error: var(--error-700);
+  --text-blue: var(--blue-500);
+  --text-green: var(--green-500);
+  --text-red: var(--red-500);
+
+  /* ── Shape & motion ────────────────────────────────────────────────── */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --shadow-menu: 0 4px 16px rgb(37 37 47 / 14%);
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+}

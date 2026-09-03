@@ -1,0 +1,37 @@
+@use "@fontsource/material-icons";
+@use "./tokens.css";
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: auto;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background-color: var(--bg-page);
+}
+
+div#root {
+  min-height: 100%;
+  min-width: 300px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* Material Icons are rendered as ligatures: <span class="material-icons">add</span> */
+.material-icons {
+  font-family: "Material Icons", sans-serif;
+  font-size: 1rem;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  color: var(--text-tertiary);
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
