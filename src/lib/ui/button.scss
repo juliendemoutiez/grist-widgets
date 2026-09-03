@@ -1,0 +1,35 @@
+.ui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  &--small  { height: 32px; padding: 0 0.75rem; font-size: 13px; }
+  &--medium { height: 40px; padding: 0 1rem;    font-size: 14px; }
+
+  &--brand {
+    background-color: var(--bg-brand);
+    color: var(--bg-surface);
+
+    &:hover:not(:disabled) { background-color: var(--brand-600); }
+  }
+
+  &--neutral {
+    background-color: transparent;
+    color: var(--text-secondary);
+    border-color: var(--bg-muted);
+
+    &:hover:not(:disabled) {
+      background-color: var(--bg-subtle);
+      color: var(--text-primary);
+    }
+  }
+}

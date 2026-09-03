@@ -1,0 +1,27 @@
+.ui-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: var(--bg-surface);
+  border: 1px solid rgb(255 255 255 / 30%);
+
+  &__initials {
+    font-weight: 700;
+    font-style: normal;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  &--xsmall { width: 16px; height: 16px; font-size: 7px;  letter-spacing: -0.25px; }
+  &--small  { width: 24px; height: 24px; font-size: 10px; letter-spacing: -0.35px; }
+  &--medium { width: 32px; height: 32px; font-size: 11px; letter-spacing: -0.38px; }
+
+  &--brand   { background-color: var(--brand-550); }
+  &--blue    { background-color: var(--blue-500); }
+  &--green   { background-color: var(--green-500); }
+  &--red     { background-color: var(--red-500); }
+  &--warning { background-color: var(--warning-700); }
+  &--info    { background-color: var(--info-500); }
+}

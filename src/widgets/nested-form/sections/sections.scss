@@ -1,0 +1,50 @@
+/* --- Interactions section --- */
+
+.interactions-section {
+  margin-top: 0.25rem;
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--bg-muted);
+  margin: 0.75rem 0;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+
+  .material-icons {
+    font-size: 1rem;
+    color: var(--text-tertiary);
+  }
+
+  &__add {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid var(--bg-muted);
+    border-radius: 0.25rem;
+    padding: 0.125rem;
+    cursor: pointer;
+    color: var(--text-brand-tertiary);
+    transition: background-color 0.15s, border-color 0.15s;
+
+    &:hover {
+      background-color: var(--bg-page);
+      border-color: var(--bg-muted-hover);
+    }
+
+    .material-icons {
+      font-size: 1rem;
+      color: var(--text-brand-tertiary);
+    }
+  }
+}
