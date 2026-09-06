@@ -92,7 +92,7 @@ html, body {
     margin-right: 0.75rem;
     color: var(--text-secondary);
     flex-shrink: 0;
-    .material-icons { font-size: 20px; }
+    .icon { font-size: 20px; }
   }
 
   &__nav-overlay {
@@ -161,7 +161,7 @@ html, body {
     text-align: left;
     transition: background-color 0.15s, color 0.15s;
 
-    .material-icons {
+    .icon {
       font-size: 18px;
       flex-shrink: 0;
     }
@@ -208,7 +208,7 @@ html, body {
     border-radius: 4px;
     transition: background 0.15s;
 
-    .material-icons { font-size: 14px; }
+    .icon { font-size: 14px; }
 
     &:hover {
       background: var(--overlay);
@@ -290,7 +290,7 @@ html, body {
       color: var(--text-primary);
     }
 
-    .material-icons {
+    .icon {
       font-size: 20px;
     }
   }
@@ -376,7 +376,7 @@ html, body {
       background-color: var(--bg-subtle);
     }
 
-    .material-icons {
+    .icon {
       font-size: 16px;
       line-height: 1;
     }
@@ -500,7 +500,7 @@ html, body {
     flex-shrink: 0;
     white-space: nowrap;
 
-    .material-icons {
+    .icon {
       font-size: 12px;
     }
 
@@ -534,7 +534,7 @@ html, body {
     overflow: hidden;
     color: var(--text-tertiary);
 
-    .material-icons {
+    .icon {
       font-size: 12px;
       flex-shrink: 0;
     }
@@ -567,7 +567,7 @@ html, body {
     white-space: nowrap;
     color: var(--text-tertiary);
 
-    .material-icons {
+    .icon {
       font-size: 13px;
     }
 
@@ -594,7 +594,7 @@ html, body {
     background-color: #f9fafb;
     color: #6b7280;
 
-    .material-icons {
+    .icon {
       font-size: 11px;
     }
   }
@@ -696,7 +696,7 @@ html, body {
       color: var(--text-red);
     }
 
-    .material-icons {
+    .icon {
       font-size: 14px;
     }
   }
@@ -757,7 +757,7 @@ html, body {
     text-align: left;
     transition: background-color 0.15s;
 
-    .material-icons {
+    .icon {
       font-size: 16px;
       color: var(--text-secondary);
     }
@@ -918,7 +918,7 @@ html, body {
       background-color: var(--bg-subtle);
     }
 
-    .material-icons {
+    .icon {
       font-size: 15px;
     }
   }
@@ -991,7 +991,7 @@ html, body {
       color: var(--text-primary);
     }
 
-    .material-icons {
+    .icon {
       font-size: 16px;
     }
   }
@@ -1077,7 +1077,7 @@ html, body {
     cursor: pointer;
     transition: background-color 0.15s, color 0.15s;
 
-    .material-icons {
+    .icon {
       font-size: 1rem;
     }
 

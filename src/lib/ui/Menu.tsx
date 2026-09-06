@@ -1,6 +1,7 @@
 import * as RadixMenu from '@radix-ui/react-dropdown-menu';
 import type { ReactElement, ReactNode } from 'react';
 import './menu.scss';
+import { Icon } from './Icon';
 
 interface MenuProps {
   /** The button that opens the menu. Cloned by Radix, so it must forward refs and props. */
@@ -45,7 +46,7 @@ export function MenuItem({ children, onSelect, icon, danger }: MenuItemProps) {
       className={danger ? 'ui-menu__item ui-menu__item--danger' : 'ui-menu__item'}
       onSelect={onSelect}
     >
-      {icon && <span className="material-icons">{icon}</span>}
+      {icon && <Icon name={icon} />}
       {children}
     </RadixMenu.Item>
   );

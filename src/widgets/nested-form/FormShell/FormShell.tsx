@@ -1,6 +1,6 @@
 import './FormShell.scss';
 import { type ReactNode, useRef, useEffect } from 'react';
-import { useNavigation } from '@lib';
+import { Icon, useNavigation } from '@lib';
 
 interface FormShellProps {
   title: string;
@@ -37,7 +37,7 @@ export function FormShell({ title, onTitleChange, onTitleBlur, titleDefault, tit
       <div className="form-shell__header">
         {showBack && (
           <button className="form-shell__back" onClick={() => onBack ? onBack() : pop()}>
-            <span className="material-icons">arrow_back</span>
+            <Icon name="arrow_back" />
           </button>
         )}
         {onTitleChange ? (

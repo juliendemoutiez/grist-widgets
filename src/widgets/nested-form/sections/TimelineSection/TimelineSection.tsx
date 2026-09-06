@@ -1,6 +1,6 @@
 import './TimelineSection.scss';
 import { useEffect, useRef, useState } from 'react';
-import { useGrist, useNavigation } from '@lib';
+import { Icon, useGrist, useNavigation } from '@lib';
 import type { TimelineConfig } from '@lib';
 
 /** Strip markdown syntax and collapse to a single line. */
@@ -49,7 +49,7 @@ function TimelineItemMenu({ onDelete, onClose }: { onDelete: () => void; onClose
         className="timeline__dropdown-item timeline__dropdown-item--danger"
         onClick={() => { onDelete(); onClose(); }}
       >
-        <span className="material-icons">delete</span>
+        <Icon name="delete" />
         Supprimer
       </button>
     </div>
@@ -185,10 +185,10 @@ export function TimelineSection({ config, filterId }: TimelineProps) {
     <div className="timeline-section">
       <hr className="section-divider" />
       <div className="section-title">
-        <span className="material-icons">{config.icon}</span>
+        <Icon name={config.icon} />
         {config.title}
         <button type="button" className="section-title__add" onClick={handleAdd}>
-          <span className="material-icons">add</span>
+          <Icon name="add" />
         </button>
       </div>
       {!loading && items.length === 0 && (
@@ -229,7 +229,7 @@ export function TimelineSection({ config, filterId }: TimelineProps) {
                           }}
                           aria-label="Plus d'options"
                         >
-                          <span className="material-icons">more_horiz</span>
+                          <Icon name="more_horiz" />
                         </button>
                         {menuOpenId === item.id && (
                           <TimelineItemMenu
@@ -243,7 +243,7 @@ export function TimelineSection({ config, filterId }: TimelineProps) {
                 </div>
                 {index === 0 && item.detail && (
                   <div className="timeline__detail">
-                    <span className="material-icons">arrow_forward</span>
+                    <Icon name="arrow_forward" />
                     <span>{stripMarkdown(item.detail)}</span>
                   </div>
                 )}

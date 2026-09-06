@@ -1,7 +1,7 @@
 import './SubtasksSection.scss';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type React from 'react';
-import { useGrist } from '@lib';
+import { Icon, useGrist } from '@lib';
 
 interface Subtask { text: string; done: boolean; }
 
@@ -111,7 +111,7 @@ export function SubtasksSection({ table, col, parentId, title = 'Sous-tâches', 
   return (
     <div className="subtasks-field">
       <div className="subtasks-field__header">
-        <span className="material-icons">{icon}</span>
+        <Icon name={icon} />
         <span>{title}</span>
       </div>
 
@@ -130,14 +130,14 @@ export function SubtasksSection({ table, col, parentId, title = 'Sous-tâches', 
           onDrop={handleDrop}
         >
           <span className="subtasks-field__drag-handle">
-            <span className="material-icons">drag_indicator</span>
+            <Icon name="drag_indicator" />
           </span>
           <button
             className={`subtasks-field__checkbox${task.done ? ' subtasks-field__checkbox--checked' : ''}`}
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => handleToggle(idx)}
           >
-            <span className="material-icons">check</span>
+            <Icon name="check" />
           </button>
           {editingIdx === idx ? (
             <input
@@ -160,7 +160,7 @@ export function SubtasksSection({ table, col, parentId, title = 'Sous-tâches', 
             </span>
           )}
           <button className="subtasks-field__delete" onMouseDown={(e) => e.preventDefault()} onClick={() => handleDelete(idx)}>
-            <span className="material-icons">close</span>
+            <Icon name="close" />
           </button>
         </div>
       ))}

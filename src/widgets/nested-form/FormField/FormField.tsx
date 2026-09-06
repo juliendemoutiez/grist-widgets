@@ -1,6 +1,6 @@
 import './FormField.scss';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Avatar } from '@lib';
+import { Avatar, Icon } from '@lib';
 import { PickerSelect, DatePickerSelect, useGrist, parseRefTarget, parseRefListTarget, decodeRefList, decodeChoiceList, formatDateTime, formatDate, toDateTimeLocal, fromDateTimeLocal, parseHyperlink, getHyperlinkDisplay, applyTransform } from '@lib';
 import type { PickerOption, ColumnMeta } from '@lib';
 
@@ -40,7 +40,7 @@ export function FormRow({ icon, label, children }: { icon: string; label: string
   return (
     <div className="meta-row">
       <div className="meta-row__label">
-        <span className="material-icons">{icon}</span>
+        <Icon name={icon} />
         <span>{label}</span>
       </div>
       <div className="meta-row__value">{children}</div>
@@ -256,7 +256,7 @@ export function FormField({ colId: _colId, icon, label, value, onChange, onBlur,
             {strValue ? (
               <span className="picker-select__relation-chip">
                 {onClickSelected && (
-                  <span className="material-icons picker-select__relation-link" onClick={() => onClickSelected(strValue, opt?.label ?? '')}>link</span>
+                  <Icon name="link" className="picker-select__relation-link" onClick={() => onClickSelected(strValue, opt?.label ?? '')} />
                 )}
                 {chipLabel}
               </span>
@@ -304,7 +304,7 @@ export function FormField({ colId: _colId, icon, label, value, onChange, onBlur,
                   return (
                     <span key={v} className="picker-select__relation-chip">
                       {onClickSelected && (
-                        <span className="material-icons picker-select__relation-link" onClick={() => onClickSelected(v, opt?.label ?? '')}>link</span>
+                        <Icon name="link" className="picker-select__relation-link" onClick={() => onClickSelected(v, opt?.label ?? '')} />
                       )}
                       {opt?.label ?? '\u2014'}
                     </span>
@@ -459,7 +459,7 @@ export function FormField({ colId: _colId, icon, label, value, onChange, onBlur,
           <div className="meta-row__link-wrap">
             <a href={parsed.url} target="_blank" rel="noopener noreferrer" className="meta-row__hl-chip">{displayText}</a>
             <button type="button" className="meta-row__hl-edit" onClick={() => setHlEditing(true)} title="Modifier">
-              <span className="material-icons">edit</span>
+              <Icon name="edit" />
             </button>
           </div>
         </FormRow>
@@ -492,7 +492,7 @@ export function FormField({ colId: _colId, icon, label, value, onChange, onBlur,
           {display}
           {mailto && display !== '\u2014' && (
             <a href={`mailto:${display}`} className="meta-row__mailto" title={`Envoyer un email à ${display}`}>
-              <span className="material-icons">mail</span>
+              <Icon name="mail" />
             </a>
           )}
         </span>
@@ -531,7 +531,7 @@ export function FormField({ colId: _colId, icon, label, value, onChange, onBlur,
           {input}
           {strValue && (
             <a href={`mailto:${strValue}`} className="meta-row__mailto" title={`Envoyer un email à ${strValue}`}>
-              <span className="material-icons">mail</span>
+              <Icon name="mail" />
             </a>
           )}
         </div>

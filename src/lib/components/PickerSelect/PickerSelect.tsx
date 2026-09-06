@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties } from 're
 import { createPortal } from 'react-dom';
 import { Avatar } from '../../ui/Avatar';
 import './picker-select.scss';
+import { Icon } from '../../ui/Icon';
 
 export interface PickerOption {
   value: string;
@@ -175,13 +176,7 @@ export function PickerSelect(props: PickerSelectProps) {
               return (
                 <span key={v} className="picker-select__relation-chip">
                   {props.onClickSelected && (
-                    <span
-                      className="material-icons picker-select__relation-link"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        props.onClickSelected!(v);
-                      }}
-                    >link</span>
+                    <Icon name="link" className="picker-select__relation-link" onClick={(e) => { e.stopPropagation(); props.onClickSelected!(v); }} />
                   )}
                   {opt?.label ?? v}
                 </span>
@@ -210,13 +205,7 @@ export function PickerSelect(props: PickerSelectProps) {
       return (
         <span className="picker-select__relation-chip">
           {props.onClickSelected && (
-            <span
-              className="material-icons picker-select__relation-link"
-              onClick={(e) => {
-                e.stopPropagation();
-                props.onClickSelected!(selected.value);
-              }}
-            >link</span>
+            <Icon name="link" className="picker-select__relation-link" onClick={(e) => { e.stopPropagation(); props.onClickSelected!(selected.value); }} />
           )}
           {selected.label}
         </span>
@@ -258,7 +247,7 @@ export function PickerSelect(props: PickerSelectProps) {
       {open && createPortal(
         <div className="picker-select__dropdown" ref={dropdownRef} style={dropdownStyle}>
           <div className="picker-select__search">
-            <span className="material-icons picker-select__search-icon">search</span>
+            <Icon name="search" className="picker-select__search-icon" />
             <input
               ref={searchRef}
               type="text"
@@ -274,7 +263,7 @@ export function PickerSelect(props: PickerSelectProps) {
                 className="picker-select__option picker-select__option--clear"
                 onClick={() => { (props as SingleProps).onChange(undefined); closeDropdown(); }}
               >
-                <span className="material-icons">close</span>
+                <Icon name="close" />
                 Effacer
               </li>
             )}
@@ -289,12 +278,12 @@ export function PickerSelect(props: PickerSelectProps) {
                 >
                   {isMulti && (
                     <span className={`picker-select__checkbox ${isSelected(opt.value) ? 'picker-select__checkbox--checked' : ''}`}>
-                      {isSelected(opt.value) && <span className="material-icons">check</span>}
+                      {isSelected(opt.value) && <Icon name="check" />}
                     </span>
                   )}
                   {props.relation ? (
                     <span className="picker-select__relation-chip">
-                      <span className="material-icons">link</span>
+                      <Icon name="link" />
                       {opt.label}
                     </span>
                   ) : hasColor(opt) ? (
@@ -315,7 +304,7 @@ export function PickerSelect(props: PickerSelectProps) {
                 className={`picker-select__option picker-select__option--create${filtered.length > 0 ? ' picker-select__option--create--bordered' : ''}`}
                 onClick={() => { props.onCreate!(search.trim()); setSearch(''); if (!isMulti) closeDropdown(); }}
               >
-                <span className="material-icons">add</span>
+                <Icon name="add" />
                 Créer &ldquo;{search.trim()}&rdquo;
               </li>
             )}
@@ -326,7 +315,7 @@ export function PickerSelect(props: PickerSelectProps) {
               className="picker-select__add"
               onClick={() => { props.onAdd!(); closeDropdown(); }}
             >
-              <span className="material-icons">add</span>
+              <Icon name="add" />
               {props.addLabel ?? 'Ajouter'}
             </button>
           )}

@@ -43,7 +43,7 @@ div#root {
     cursor: pointer;
     flex-shrink: 0;
 
-    .material-icons { font-size: 20px; }
+    .icon { font-size: 20px; }
 
     &:hover {
       background-color: var(--bg-subtle);
@@ -116,7 +116,7 @@ div#root {
     transition: opacity 0.15s;
     flex-shrink: 0;
 
-    .material-icons { font-size: 18px; }
+    .icon { font-size: 18px; }
 
     &:hover { opacity: 0.75; }
   }
@@ -135,7 +135,7 @@ div#root {
     color: var(--text-tertiary);
     transition: background-color 0.15s, color 0.15s;
 
-    .material-icons { font-size: 18px; }
+    .icon { font-size: 18px; }
 
     &:hover {
       background-color: var(--bg-subtle);
@@ -199,7 +199,7 @@ div#root {
     transition: background-color 0.15s, color 0.15s;
     flex-shrink: 0;
 
-    .material-icons { font-size: 14px; }
+    .icon { font-size: 14px; }
 
     &:hover {
       background-color: var(--bg-subtle);
@@ -390,7 +390,7 @@ div#root {
     transition: opacity 0.15s, background-color 0.15s, color 0.15s;
     padding: 0;
 
-    .material-icons { font-size: 13px; }
+    .icon { font-size: 13px; }
 
     &:hover {
       background-color: var(--bg-subtle);
@@ -444,11 +444,11 @@ div#root {
     z-index: 1;
     transition: opacity 0.3s;
 
-    .material-icons { font-size: 14px; }
+    .icon { font-size: 14px; }
 
     &--saving {
       color: var(--text-tertiary);
-      .material-icons { animation: notes-spin 1s linear infinite; }
+      .icon { animation: notes-spin 1s linear infinite; }
     }
 
     &--saved {
@@ -500,7 +500,7 @@ div#root {
     cursor: pointer;
     transition: border-color 0.15s, color 0.15s, background-color 0.15s;
 
-    .material-icons { font-size: 16px; }
+    .icon { font-size: 16px; }
 
     &:hover {
       border-color: var(--text-tertiary);
@@ -771,7 +771,7 @@ div#root {
     cursor: pointer;
     transition: background-color 0.1s, color 0.1s;
 
-    .material-icons { font-size: 15px; flex-shrink: 0; color: var(--text-tertiary); }
+    .icon { font-size: 15px; flex-shrink: 0; color: var(--text-tertiary); }
 
     &--selected,
     &:hover {

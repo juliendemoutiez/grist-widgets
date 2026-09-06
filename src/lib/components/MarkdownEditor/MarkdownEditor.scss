@@ -19,7 +19,7 @@
     font-weight: 600;
     color: var(--text-primary);
 
-    .material-icons {
+    .icon {
       font-size: 1rem;
       color: var(--text-tertiary);
     }
@@ -64,7 +64,7 @@
   cursor: pointer;
   transition: background-color 0.12s, color 0.12s;
 
-  .material-icons {
+  .icon {
     font-size: 18px;
   }
 
@@ -186,7 +186,7 @@
   color: var(--text-secondary);
   padding: 0;
 
-  .material-icons { font-size: 18px; }
+  .icon { font-size: 18px; }
 
   &--checked {
     color: var(--text-blue);

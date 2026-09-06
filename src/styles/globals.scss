@@ -1,4 +1,4 @@
-@use "@fontsource/material-icons";
+@use "@fontsource-variable/inter";
 @use "./tokens.css";
 
 html,
@@ -18,20 +18,16 @@ div#root {
   box-sizing: border-box;
 }
 
-/* Material Icons are rendered as ligatures: <span class="material-icons">add</span> */
-.material-icons {
-  font-family: "Material Icons", sans-serif;
+/* Icônes Lucide (SVG). La taille suit le `font-size` hérité grâce à
+   width/height: 1em, donc les règles existantes (`.icon { font-size: 18px }`)
+   continuent de piloter le rendu. */
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
   font-size: 1rem;
-  font-weight: normal;
-  font-style: normal;
-  line-height: 1;
+  flex: none;
+  vertical-align: -0.15em;
   color: var(--text-tertiary);
-  letter-spacing: normal;
-  text-transform: none;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  font-feature-settings: "liga";
-  -webkit-font-smoothing: antialiased;
   user-select: none;
 }

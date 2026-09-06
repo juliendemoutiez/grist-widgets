@@ -1,11 +1,11 @@
 import './notes.scss';
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import type { RowRecord } from 'grist-plugin-api';
-import { useGrist, Tooltip } from '@lib';
+import { Icon, Tooltip, useGrist } from '@lib';
 import {
   TITLE_COL, CONTENT_COL, ICON_COL, TYPE_COL, PARENT_COL,
   ORDER_COL, STATUS_COL, CREATED_COL, IS_EXPANDED_COL,
-  T_NOTE, T_DAILY, S_ARCHIVED, S_ACTIVE, DEFAULT_ICON,
+  T_NOTE, T_DAILY, S_ARCHIVED, S_DELETED, S_ACTIVE, DEFAULT_ICON,
   itemIcon,
 } from './constants';
 import { NavItem, NavDropEnd } from './NavItem';
@@ -93,7 +93,11 @@ export function NotesWidget() {
   const rootItems = useMemo(
     () =>
       [...allRecords.filter(
-        (r) => !Number(r[PARENT_COL]) && r[STATUS_COL] !== S_ARCHIVED && r[TYPE_COL] !== T_DAILY,
+        (r) =>
+          !Number(r[PARENT_COL]) &&
+          r[STATUS_COL] !== S_ARCHIVED &&
+          r[STATUS_COL] !== S_DELETED &&
+          r[TYPE_COL] !== T_DAILY,
       )].sort((a, b) => ((a[ORDER_COL] as number) || 0) - ((b[ORDER_COL] as number) || 0)),
     [allRecords],
   );
@@ -116,14 +120,14 @@ export function NotesWidget() {
   const treeChildren = useCallback(
     (folderId: number) =>
       (childrenMap.get(folderId) ?? []).filter(
-        (r) => r[STATUS_COL] !== S_ARCHIVED && r[TYPE_COL] !== T_DAILY,
+        (r) => r[STATUS_COL] !== S_ARCHIVED && r[STATUS_COL] !== S_DELETED && r[TYPE_COL] !== T_DAILY,
       ),
     [childrenMap],
   );
 
   const dailyItems = useMemo(
     () =>
-      [...allRecords.filter((r) => r[TYPE_COL] === T_DAILY)].sort(
+      [...allRecords.filter((r) => r[TYPE_COL] === T_DAILY && r[STATUS_COL] !== S_DELETED)].sort(
         (a, b) => ((b[CREATED_COL] as number) || 0) - ((a[CREATED_COL] as number) || 0),
       ),
     [allRecords],
@@ -187,7 +191,9 @@ export function NotesWidget() {
     const mm   = String(now.getMonth() + 1).padStart(2, '0');
     const yyyy = now.getFullYear();
     const todayTitle = `${dd}-${mm}-${yyyy}`;
-    const existing = allRecords.find((r) => r[TYPE_COL] === T_DAILY && r[TITLE_COL] === todayTitle);
+    const existing = allRecords.find(
+      (r) => r[TYPE_COL] === T_DAILY && r[TITLE_COL] === todayTitle && r[STATUS_COL] !== S_DELETED,
+    );
     setActiveView('daily');
     if (existing) {
       setFocusEndKey((k) => k + 1);
@@ -222,17 +228,22 @@ export function NotesWidget() {
   const handleSaveContent = (content: string) => { if (selectedId) void trackSave(() => updateLinkedRecord(selectedId, { [CONTENT_COL]: content })); };
   const handleSaveIcon    = (icon: string)    => { if (selectedId) void trackSave(() => updateLinkedRecord(selectedId, { [ICON_COL]:    icon    })); };
 
-  const handleArchive = async (id: number) => {
+  // Archiving / deleting cascades to the whole subtree so children never
+  // outlive the parent they are shown under.
+  const setStatusRecursive = async (id: number, status: string) => {
     setMenuOpenId(null);
-    const toArchive: number[] = [];
+    const ids: number[] = [];
     const collect = (nodeId: number) => {
-      toArchive.push(nodeId);
+      ids.push(nodeId);
       for (const child of childrenMap.get(nodeId) ?? []) collect(child.id);
     };
     collect(id);
-    if (selectedId !== null && toArchive.includes(selectedId)) setSelectedId(null);
-    for (const nid of toArchive) await updateLinkedRecord(nid, { [STATUS_COL]: S_ARCHIVED });
+    if (selectedId !== null && ids.includes(selectedId)) setSelectedId(null);
+    for (const nid of ids) await updateLinkedRecord(nid, { [STATUS_COL]: status });
   };
+
+  const handleArchive = (id: number) => setStatusRecursive(id, S_ARCHIVED);
+  const handleDelete  = (id: number) => setStatusRecursive(id, S_DELETED);
 
   const handleReorder = async (draggedId: number, insertBeforeId: number | null, group: RowRecord[]) => {
     const without = group.filter((r) => r.id !== draggedId);
@@ -363,6 +374,7 @@ export function NotesWidget() {
     onMenuOpen:     handleMenuOpen,
     onMenuClose:    handleMenuClose,
     onArchive:      (id) => void handleArchive(id),
+    onDelete:       (id) => void handleDelete(id),
   };
 
   // ── Render helpers ─────────────────────────────────────────────────────────
@@ -389,12 +401,10 @@ export function NotesWidget() {
             {item[ICON_COL] ? (
               <span className="notes__nav-icon notes__nav-icon--note notes__nav-icon--emoji">{String(item[ICON_COL])}</span>
             ) : (
-              <span className="material-icons notes__nav-icon notes__nav-icon--note">{itemIcon(String(item[TYPE_COL] ?? T_NOTE))}</span>
+              <Icon name={itemIcon(String(item[TYPE_COL] ?? T_NOTE))} className="notes__nav-icon notes__nav-icon--note" />
             )}
             {hasChildren && (
-              <span className="material-icons notes__nav-icon notes__nav-icon--caret">
-                {isExpanded ? 'expand_more' : 'chevron_right'}
-              </span>
+              <Icon name={isExpanded ? 'expand_more' : 'chevron_right'} className="notes__nav-icon notes__nav-icon--caret" />
             )}
           </span>
           <span className="notes__nav-label">{String(item[TITLE_COL] ?? '') || 'Sans titre'}</span>
@@ -410,9 +420,7 @@ export function NotesWidget() {
       className={`notes__nav-item${selectedId === item.id ? ' notes__nav-item--active' : ''}`}
       onClick={() => void handleSelect(item.id)}
     >
-      <span className="material-icons notes__nav-icon">
-        {itemIcon(String(item[TYPE_COL] ?? T_NOTE))}
-      </span>
+      <Icon name={itemIcon(String(item[TYPE_COL] ?? T_NOTE))} className="notes__nav-icon" />
       <div className="notes__nav-flat-meta">
         <span className="notes__nav-label">{String(item[TITLE_COL] ?? '') || 'Sans titre'}</span>
         {subtitle && <span className="notes__nav-subtitle">{subtitle}</span>}
@@ -454,12 +462,12 @@ export function NotesWidget() {
             </span>
             {activeView === 'notes' && (
               <button className="notes__nav-section-btn" onClick={() => void handleNewNote()} title="Nouvelle note">
-                <span className="material-icons">add</span>
+                <Icon name="add" />
               </button>
             )}
             {activeView === 'daily' && (
               <button className="notes__nav-section-btn" onClick={() => void handleNewDaily()} title="Nouvelle daily note">
-                <span className="material-icons">add</span>
+                <Icon name="add" />
               </button>
             )}
           </div>
@@ -474,12 +482,12 @@ export function NotesWidget() {
                 onClick={() => setActiveView(view.id)}
                 aria-label={view.label}
               >
-                <span className="material-icons">{view.icon}</span>
+                <Icon name={view.icon} />
               </button>
             </Tooltip>
           ))}
           <button className="notes__daily-create-btn" onClick={() => void handleNewDaily()} title="Nouvelle daily note">
-            <span className="material-icons">calendar_today</span>
+            <Icon name="calendar_today" />
           </button>
         </div>
 
@@ -488,7 +496,7 @@ export function NotesWidget() {
       <main className="notes__main">
         {saveStatus !== 'idle' && (
           <div className={`notes__save-status notes__save-status--${saveStatus}`}>
-            <span className="material-icons">{saveStatus === 'saving' ? 'sync' : 'check_circle'}</span>
+            <Icon name={saveStatus === 'saving' ? 'sync' : 'check_circle'} />
             {saveStatus === 'saving' ? 'Enregistrement…' : 'Enregistré'}
           </div>
         )}
@@ -507,12 +515,12 @@ export function NotesWidget() {
         ) : (
           <div className="notes__no-selection">
             <button className="notes__nav-toggle notes__nav-toggle--no-selection" onClick={() => setSidebarOpen(true)} aria-label="Menu">
-              <span className="material-icons">menu</span>
+              <Icon name="menu" />
             </button>
-            <span className="material-icons notes__no-selection-icon">edit_note</span>
+            <Icon name="edit_note" className="notes__no-selection-icon" />
             <p>Sélectionnez une note ou créez-en une nouvelle</p>
             <button className="notes__create-btn" onClick={() => void handleNewNote()}>
-              <span className="material-icons">add</span>
+              <Icon name="add" />
               Nouvelle note
             </button>
           </div>

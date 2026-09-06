@@ -5,6 +5,7 @@ import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import { Markdown } from 'tiptap-markdown';
+import { Icon } from '../../ui/Icon';
 
 interface MarkdownEditorProps {
   icon: string;
@@ -41,7 +42,7 @@ function TbBtn({
         onClick();
       }}
     >
-      {icon ? <span className="material-icons">{icon}</span> : <span className="rte-toolbar__text">{text}</span>}
+      {icon ? <Icon name={icon} /> : <span className="rte-toolbar__text">{text}</span>}
     </button>
   );
 }
@@ -101,7 +102,7 @@ export function MarkdownEditor({ icon, label, value, onChange, onBlur, readOnly,
     <div className="markdown-editor">
       <div className="markdown-editor__header">
         <div className="markdown-editor__title">
-          <span className="material-icons">{icon}</span>
+          <Icon name={icon} />
           <span>{label}</span>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import './FormScreen.scss';
 import type { ReactNode } from 'react';
-import { useGrist } from '@lib';
+import { Icon, useGrist } from '@lib';
 import type { FormConfig } from '@lib';
 import { FormShell } from '../FormShell/FormShell';
 import { FormField } from '../FormField/FormField';
@@ -44,7 +44,7 @@ export function FormScreen({ config, mode, children }: FormScreenProps) {
 
   const newRecordButton = onNewRecord && (
     <button type="button" className="new-record-btn" onClick={onNewRecord}>
-      <span className="material-icons">add</span>
+      <Icon name="add" />
       {config.newRecordLabel}
     </button>
   );
@@ -54,7 +54,7 @@ export function FormScreen({ config, mode, children }: FormScreenProps) {
       <>
         {newRecordButton}
         <div className="empty-state">
-          <span className="material-icons empty-state__icon">description</span>
+          <Icon name="description" className="empty-state__icon" />
           <p className="empty-state__text">{config.emptyMessage ?? 'Sélectionnez un enregistrement'}</p>
         </div>
       </>

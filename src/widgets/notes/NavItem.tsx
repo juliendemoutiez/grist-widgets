@@ -1,6 +1,6 @@
 import React from 'react';
 import type { RowRecord } from 'grist-plugin-api';
-import { Menu, MenuItem } from '@lib';
+import { Icon, Menu, MenuItem } from '@lib';
 import { ICON_COL, TYPE_COL, TITLE_COL, T_NOTE, itemIcon } from './constants';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -29,6 +29,7 @@ export interface NavTreeHandlers {
   onMenuOpen: (id: number) => void;
   onMenuClose: () => void;
   onArchive: (id: number) => void;
+  onDelete: (id: number) => void;
 }
 
 // ─── NavDropEnd ───────────────────────────────────────────────────────────────
@@ -90,14 +91,10 @@ export function NavItem({ item, group, groupKey, depth = 0, ts, th }: {
               {String(item[ICON_COL])}
             </span>
           ) : (
-            <span className="material-icons notes__nav-icon notes__nav-icon--note">
-              {itemIcon(String(item[TYPE_COL] ?? T_NOTE))}
-            </span>
+            <Icon name={itemIcon(String(item[TYPE_COL] ?? T_NOTE))} className="notes__nav-icon notes__nav-icon--note" />
           )}
           {hasChildren && (
-            <span className="material-icons notes__nav-icon notes__nav-icon--caret">
-              {isExpanded ? 'expand_more' : 'chevron_right'}
-            </span>
+            <Icon name={isExpanded ? 'expand_more' : 'chevron_right'} className="notes__nav-icon notes__nav-icon--caret" />
           )}
         </span>
         <span className="notes__nav-label">
@@ -108,7 +105,7 @@ export function NavItem({ item, group, groupKey, depth = 0, ts, th }: {
           onClick={(e) => { e.stopPropagation(); th.onNewNote(item.id); }}
           title="Nouvelle sous-note"
         >
-          <span className="material-icons">add</span>
+          <Icon name="add" />
         </button>
         <Menu
           open={ts.menuOpenId === item.id}
@@ -119,10 +116,11 @@ export function NavItem({ item, group, groupKey, depth = 0, ts, th }: {
               onClick={(e) => e.stopPropagation()}
               aria-label="Options de la note"
             >
-              <span className="material-icons">more_horiz</span>
+              <Icon name="more_horiz" />
             </button>
           }
         >
+          <MenuItem icon="delete" danger onSelect={() => th.onDelete(item.id)}>Supprimer</MenuItem>
           <MenuItem icon="inventory_2" onSelect={() => th.onArchive(item.id)}>Archiver</MenuItem>
         </Menu>
       </div>

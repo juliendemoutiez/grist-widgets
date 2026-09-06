@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import type { RowRecord } from 'grist-plugin-api';
-import { decodeChoiceList, Menu, MenuItem } from '@lib';
+import { decodeChoiceList, Icon, Menu, MenuItem } from '@lib';
 import type { ProjetColor, ActiveFilter } from './types';
 import {
   NAME_COL, DONE_COL, DUE_COL, PROJET_COL, LISTE_COL,
@@ -222,7 +222,7 @@ export function TaskItem({
     >
       {!isNew && (
         <span className="todo-widget__drag-handle" aria-hidden="true">
-          <span className="material-icons">drag_indicator</span>
+          <Icon name="drag_indicator" />
         </span>
       )}
 
@@ -233,9 +233,9 @@ export function TaskItem({
         onClick={(e) => { e.stopPropagation(); onToggle(!isDone); }}
         aria-label={isDone ? 'Marquer comme non terminé' : 'Marquer comme terminé'}
       >
-        <span className="material-icons todo-widget__checkbox-check">check</span>
+        <Icon name="check" className="todo-widget__checkbox-check" />
         {priority && (
-          <span className="material-icons todo-widget__checkbox-flag" style={priorityColor ? { color: priorityColor } : undefined}>flag</span>
+          <Icon name="flag" className="todo-widget__checkbox-flag" style={priorityColor ? { color: priorityColor } : undefined} />
         )}
       </button>
 
@@ -254,13 +254,13 @@ export function TaskItem({
           <div className="todo-widget__meta-left">
             {dueDate && (
               <div className={`todo-widget__due${isDone ? ' todo-widget__due--done' : status ? ` todo-widget__due--${status}` : ''}`}>
-                <span className="material-icons">calendar_today</span>
+                <Icon name="calendar_today" />
                 {formatDate(dueDate)}
               </div>
             )}
             {tags.length > 0 && (
               <div className="todo-widget__tags">
-                <span className="material-icons">sell</span>
+                <Icon name="sell" />
                 <span className="todo-widget__tags-text">
                   {tags.map((tag, i) => (
                     <React.Fragment key={tag}>
@@ -276,7 +276,7 @@ export function TaskItem({
             )}
             {subtasks.length > 0 && (
               <div className={`todo-widget__subtasks-badge${subtasksDone === subtasks.length ? ' todo-widget__subtasks-badge--done' : ''}`}>
-                <span className="material-icons">checklist</span>
+                <Icon name="checklist" />
                 <span>{subtasksDone}/{subtasks.length}</span>
               </div>
             )}
@@ -285,7 +285,7 @@ export function TaskItem({
             <div className="todo-widget__chips-group">
               {showListeChip && (
                 <span className="todo-widget__liste-chip" title={listeValue}>
-                  <span className="material-icons">{listeValue === "Aujourd'hui" ? 'today' : 'schedule'}</span>
+                  <Icon name={listeValue === "Aujourd'hui" ? 'today' : 'schedule'} />
                 </span>
               )}
               <span
@@ -311,7 +311,7 @@ export function TaskItem({
                   onClick={(e) => e.stopPropagation()}
                   aria-label="Plus d'options"
                 >
-                  <span className="material-icons">more_horiz</span>
+                  <Icon name="more_horiz" />
                 </button>
               }
             >

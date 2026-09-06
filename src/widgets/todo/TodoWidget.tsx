@@ -2,7 +2,7 @@ import './todo.scss';
 import { useEffect, useRef, useMemo, useState } from 'react';
 import { flushSync } from 'react-dom';
 import type { RowRecord } from 'grist-plugin-api';
-import { useGrist, decodeChoiceList } from '@lib';
+import { decodeChoiceList, Icon, useGrist } from '@lib';
 import { useTodoData } from './useTodoData';
 import { TaskItem } from './TaskItem';
 import { TodoNav } from './TodoNav';
@@ -65,7 +65,7 @@ function SortButton({ sortMode, onSort }: { sortMode: 'manual' | 'priority' | 'n
         aria-label="Trier"
         title={`Tri : ${current.label}`}
       >
-        <span className="material-icons">swap_vert</span>
+        <Icon name="swap_vert" />
         {sortMode !== 'manual' && <span className="todo-widget__sort-label">{current.label}</span>}
       </button>
       {open && (
@@ -76,9 +76,9 @@ function SortButton({ sortMode, onSort }: { sortMode: 'manual' | 'priority' | 'n
               className={`todo-widget__sort-option${sortMode === o.mode ? ' todo-widget__sort-option--active' : ''}`}
               onMouseDown={(e) => { e.preventDefault(); onSort(o.mode); setOpen(false); }}
             >
-              <span className="material-icons">{o.icon}</span>
+              <Icon name={o.icon} />
               {o.label}
-              {sortMode === o.mode && <span className="material-icons todo-widget__sort-check">check</span>}
+              {sortMode === o.mode && <Icon name="check" className="todo-widget__sort-check" />}
             </button>
           ))}
         </div>
@@ -433,15 +433,13 @@ export function TodoWidget() {
       <div className="todo-widget__main" onClick={() => { setSelectedId(null); setSelectedRows([]); }}>
         <div className="todo-widget__header">
           <button className="todo-widget__nav-toggle" onClick={(e) => { e.stopPropagation(); setNavOpen((v) => !v); }} aria-label="Menu">
-            <span className="material-icons">menu</span>
+            <Icon name="menu" />
           </button>
           <h1 className="todo-widget__title">
             {activeFilter.type === 'section' ? (
-              <span className="material-icons todo-widget__title-icon">
-                {SECTIONS.find((s) => s.key === activeFilter.key)?.icon}
-              </span>
+              <Icon name={SECTIONS.find((s) => s.key === activeFilter.key)?.icon ?? 'inbox'} className="todo-widget__title-icon" />
             ) : activeFilter.type === 'tag' ? (
-              <span className="material-icons todo-widget__title-icon todo-widget__title-icon--tag">sell</span>
+              <Icon name="sell" className="todo-widget__title-icon todo-widget__title-icon--tag" />
             ) : (
               <span
                 className="todo-widget__title-dot"
@@ -461,7 +459,7 @@ export function TodoWidget() {
                   onClick={(e) => { e.stopPropagation(); setShowHeaderMenu((v) => !v); }}
                   aria-label="Options"
                 >
-                  <span className="material-icons">more_horiz</span>
+                  <Icon name="more_horiz" />
                 </button>
                 {showHeaderMenu && (
                   <HeaderMenu
@@ -490,11 +488,11 @@ export function TodoWidget() {
           if (visibleList.length === 0 && !draftActive) {
             return (
               <div className="todo-widget__empty">
-                <span className="material-icons todo-widget__empty-icon">check_circle</span>
+                <Icon name="check_circle" className="todo-widget__empty-icon" />
                 <p className="todo-widget__empty-text">{isTerminees ? 'Aucune tâche terminée' : 'Aucune tâche'}</p>
                 {!isTerminees && (
                   <button className="todo-widget__empty-btn" onClick={() => { handleAddTask(); }}>
-                    <span className="material-icons">add</span>
+                    <Icon name="add" />
                     Ajouter une tâche
                   </button>
                 )}
@@ -530,7 +528,7 @@ export function TodoWidget() {
 
         {initialized && !draftActive && !isTerminees && (isAujourdhui && showDone ? [...filteredRecords, ...doneRecords] : filteredRecords).length > 0 && (
           <button className="todo-widget__add-task-btn" onClick={(e) => { e.stopPropagation(); handleAddTask(); }}>
-            <span className="material-icons">add</span>
+            <Icon name="add" />
             Ajouter une tâche
           </button>
         )}

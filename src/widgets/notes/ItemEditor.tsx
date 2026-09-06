@@ -8,6 +8,7 @@ import Mention from '@tiptap/extension-mention';
 import { Markdown } from 'tiptap-markdown';
 import type { RowRecord } from 'grist-plugin-api';
 import { TITLE_COL, CONTENT_COL, ICON_COL, PARENT_COL, COMMON_EMOJIS, DEFAULT_ICON } from './constants';
+import { Icon } from '@lib';
 
 // ─── Note mention popup ───────────────────────────────────────────────────────
 
@@ -64,7 +65,7 @@ const NoteMentionList = React.forwardRef<MentionListHandle, MentionState>(
             }}
             onMouseEnter={() => setSelectedIndex(index)}
           >
-            <span className="material-icons">description</span>
+            <Icon name="description" />
             <span>{String(item[TITLE_COL] ?? '') || 'Sans titre'}</span>
           </button>
         ))}
@@ -86,7 +87,7 @@ function TbBtn({ icon, text, title, active, onClick }: {
       title={title}
       onMouseDown={(e) => { e.preventDefault(); onClick(); }}
     >
-      {icon ? <span className="material-icons">{icon}</span>
+      {icon ? <Icon name={icon} />
              : <span className="rte-toolbar__text">{text}</span>}
     </button>
   );
@@ -294,7 +295,7 @@ export function ItemEditor({ item, allRecords, onSaveTitle, onSaveContent, onSav
                     <span>{String(p[TITLE_COL] ?? '') || 'Sans titre'}</span>
                   </button>
                   {i < breadcrumbs.length - 1 && (
-                    <span className="material-icons notes__breadcrumb-sep">chevron_right</span>
+                    <Icon name="chevron_right" className="notes__breadcrumb-sep" />
                   )}
                 </React.Fragment>
               ))}
@@ -302,7 +303,7 @@ export function ItemEditor({ item, allRecords, onSaveTitle, onSaveContent, onSav
           )}
           <div className="notes__title-row">
             <button className="notes__nav-toggle" onClick={onOpenSidebar} aria-label="Menu">
-              <span className="material-icons">menu</span>
+              <Icon name="menu" />
             </button>
             <EmojiPicker
               value={iconDraft}

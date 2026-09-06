@@ -79,6 +79,6 @@
   --radius-lg: 8px;
   --shadow-menu: 0 4px 16px rgb(34 38 49 / 14%);
 
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, sans-serif;
+  --font-sans: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
 }

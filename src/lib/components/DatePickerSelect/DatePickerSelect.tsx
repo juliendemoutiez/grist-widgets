@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import './date-picker-select.scss';
+import { Icon } from '../../ui/Icon';
 
 interface DatePickerSelectProps {
   value: number | null | undefined;
@@ -134,7 +135,7 @@ export function DatePickerSelect({ value, onChange, placeholder = 'Choisir une d
           style={hasValue ? undefined : { visibility: 'hidden' }}
           onClick={() => onChange(null)}
         >
-          <span className="material-icons">close</span>
+          <Icon name="close" />
         </button>
       )}
 
@@ -142,13 +143,13 @@ export function DatePickerSelect({ value, onChange, placeholder = 'Choisir une d
         <div className="date-picker-select__dropdown" ref={dropdownRef} style={dropdownStyle}>
           <div className="date-picker-select__nav-row">
             <button type="button" className="date-picker-select__nav" onClick={prevMonth}>
-              <span className="material-icons">chevron_left</span>
+              <Icon name="chevron_left" />
             </button>
             <span className="date-picker-select__month-label">
               {MONTHS_FR[viewMonth]} {viewYear}
             </span>
             <button type="button" className="date-picker-select__nav" onClick={nextMonth}>
-              <span className="material-icons">chevron_right</span>
+              <Icon name="chevron_right" />
             </button>
           </div>
 
@@ -187,7 +188,7 @@ export function DatePickerSelect({ value, onChange, placeholder = 'Choisir une d
               className="date-picker-select__clear"
               onClick={() => { onChange(null); closeDropdown(); }}
             >
-              <span className="material-icons">close</span>
+              <Icon name="close" />
               Effacer
             </button>
           )}

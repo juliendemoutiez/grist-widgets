@@ -21,6 +21,9 @@ export { MarkdownEditor } from './components/MarkdownEditor/MarkdownEditor';
 export { WidgetSettings } from './components/WidgetSettings/WidgetSettings';
 
 // UI primitives (Radix + local)
+export { Icon } from './ui/Icon';
+export type { IconProps } from './ui/Icon';
+export { resolveIcon } from './ui/icon-registry';
 export { Menu, MenuItem } from './ui/Menu';
 export { Tooltip, TooltipProvider } from './ui/Tooltip';
 export { Avatar } from './ui/Avatar';

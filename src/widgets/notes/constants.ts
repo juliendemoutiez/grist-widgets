@@ -15,6 +15,7 @@ export const IS_EXPANDED_COL = 'IsExpanded';
 export const T_NOTE      = 'note';
 export const T_DAILY     = 'daily';
 export const S_ARCHIVED  = 'archived';
+export const S_DELETED   = 'deleted';
 export const S_ACTIVE    = 'active';
 export const DEFAULT_ICON = '📝';
 

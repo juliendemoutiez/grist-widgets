@@ -1,5 +1,6 @@
 import type { ProjetColor, ActiveFilter, DragTarget, SectionKey } from './types';
 import { SECTIONS } from './types';
+import { Icon } from '@lib';
 
 interface TodoNavProps {
   navOpen: boolean;
@@ -68,7 +69,7 @@ export function TodoNav({
             onDragLeave={noDrop ? undefined : () => onDragTarget(null)}
             onDrop={noDrop ? undefined : (e) => { e.preventDefault(); onDrop({ type: 'section', key: section.key }); }}
           >
-            <span className="material-icons">{section.icon}</span>
+            <Icon name={section.icon} />
             <span className="todo-widget__nav-item-label">{section.label}</span>
             {(navCounts[`section:${section.key}`] ?? 0) > 0 && (
               <span className="todo-widget__nav-count">{navCounts[`section:${section.key}`]}</span>
@@ -86,9 +87,7 @@ export function TodoNav({
               title={projectSort === 'alpha' ? 'Trier par nombre de tâches' : 'Trier alphabétiquement'}
               onClick={() => onProjectSort(projectSort === 'alpha' ? 'count' : 'alpha')}
             >
-              <span className="material-icons">
-                {projectSort === 'alpha' ? 'sort_by_alpha' : 'filter_list'}
-              </span>
+              <Icon name={projectSort === 'alpha' ? 'sort_by_alpha' : 'filter_list'} />
             </button>
           </span>
           {projetEntries.map((name) => {

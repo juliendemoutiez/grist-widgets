@@ -1,6 +1,6 @@
 import './index.scss';
 import { useMemo } from 'react';
-import { NavigationProvider, useNavigation, useGrist, WidgetSettings } from '@lib';
+import { Icon, NavigationProvider, useGrist, useNavigation, WidgetSettings } from '@lib';
 import type { NestedFormWidgetConfig, JsonScreenConfig } from '@lib';
 import { FormScreen } from './FormScreen/FormScreen';
 import { SectionContent } from './sections/SectionContent/SectionContent';
@@ -145,7 +145,7 @@ export function NestedFormWidget() {
   if (!widgetConfig?.initialScreen) {
     return (
       <div className="empty-state">
-        <span className="material-icons empty-state__icon">settings</span>
+        <Icon name="settings" className="empty-state__icon" />
         <p className="empty-state__text">Configurez ce widget pour commencer</p>
       </div>
     );

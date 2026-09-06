@@ -13,7 +13,7 @@
     color: var(--text-primary);
     margin-bottom: 0.375rem;
 
-    .material-icons {
+    .icon {
       font-size: 1rem;
       color: var(--text-tertiary);
     }
@@ -56,7 +56,7 @@
     flex-shrink: 0;
     margin-top: 2px;
 
-    .material-icons { font-size: 14px; }
+    .icon { font-size: 14px; }
   }
 
   &__drag-handle-placeholder {
@@ -94,13 +94,13 @@
       border-style: dashed;
     }
 
-    .material-icons {
+    .icon {
       font-size: 10px;
       color: var(--bg-surface);
       display: none;
     }
 
-    &--checked .material-icons {
+    &--checked .icon {
       display: block;
     }
   }
@@ -151,7 +151,7 @@
       background-color: var(--bg-subtle);
     }
 
-    .material-icons {
+    .icon {
       font-size: 12px;
     }
   }
