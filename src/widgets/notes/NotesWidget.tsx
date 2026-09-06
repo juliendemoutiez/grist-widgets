@@ -153,6 +153,10 @@ export function NotesWidget() {
     [allRecords, selectedId],
   );
 
+  const selectedStatus   = String(selectedRecord?.[STATUS_COL] ?? '');
+  const selectedArchived = selectedStatus === S_ARCHIVED;
+  const selectedDeleted  = selectedStatus === S_DELETED;
+
   const getGroup = useCallback((r: RowRecord): { key: string; list: RowRecord[] } => {
     const pid = Number(r[PARENT_COL]) || 0;
     if (!pid) return { key: 'root', list: rootItems };
@@ -224,9 +228,11 @@ export function NotesWidget() {
     }
   }, []);
 
-  const handleSaveTitle   = (title: string)   => { if (selectedId) void trackSave(() => updateLinkedRecord(selectedId, { [TITLE_COL]:   title   })); };
-  const handleSaveContent = (content: string) => { if (selectedId) void trackSave(() => updateLinkedRecord(selectedId, { [CONTENT_COL]: content })); };
-  const handleSaveIcon    = (icon: string)    => { if (selectedId) void trackSave(() => updateLinkedRecord(selectedId, { [ICON_COL]:    icon    })); };
+  const canEdit = selectedId !== null && !selectedDeleted;
+
+  const handleSaveTitle   = (title: string)   => { if (canEdit) void trackSave(() => updateLinkedRecord(selectedId, { [TITLE_COL]:   title   })); };
+  const handleSaveContent = (content: string) => { if (canEdit) void trackSave(() => updateLinkedRecord(selectedId, { [CONTENT_COL]: content })); };
+  const handleSaveIcon    = (icon: string)    => { if (canEdit) void trackSave(() => updateLinkedRecord(selectedId, { [ICON_COL]:    icon    })); };
 
   // Archiving / deleting cascades to the whole subtree so children never
   // outlive the parent they are shown under.
@@ -511,6 +517,8 @@ export function NotesWidget() {
             onNavigate={(id) => void handleSelect(id)}
             onOpenSidebar={() => setSidebarOpen(true)}
             focusEndKey={focusEndKey}
+            isArchived={selectedArchived}
+            isDeleted={selectedDeleted}
           />
         ) : (
           <div className="notes__no-selection">

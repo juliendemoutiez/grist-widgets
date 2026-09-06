@@ -95,7 +95,7 @@ function TbBtn({ icon, text, title, active, onClick }: {
 
 // ─── Emoji picker ─────────────────────────────────────────────────────────────
 
-function EmojiPicker({ value, onChange }: { value: string; onChange: (e: string) => void }) {
+function EmojiPicker({ value, onChange, disabled }: { value: string; onChange: (e: string) => void; disabled?: boolean }) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
 
@@ -114,7 +114,8 @@ function EmojiPicker({ value, onChange }: { value: string; onChange: (e: string)
         type="button"
         className={`notes__emoji-btn${open ? ' notes__emoji-btn--open' : ''}`}
         onClick={() => setOpen((o) => !o)}
-        title="Choisir un emoji"
+        disabled={disabled}
+        title={disabled ? undefined : 'Choisir un emoji'}
       >
         {value || '📝'}
       </button>
@@ -138,7 +139,7 @@ function EmojiPicker({ value, onChange }: { value: string; onChange: (e: string)
 
 // ─── ItemEditor ───────────────────────────────────────────────────────────────
 
-export function ItemEditor({ item, allRecords, onSaveTitle, onSaveContent, onSaveIcon, onNavigate, onOpenSidebar, focusEndKey }: {
+export function ItemEditor({ item, allRecords, onSaveTitle, onSaveContent, onSaveIcon, onNavigate, onOpenSidebar, focusEndKey, isArchived, isDeleted }: {
   item: RowRecord;
   allRecords: RowRecord[];
   onSaveTitle: (t: string) => void;
@@ -147,6 +148,8 @@ export function ItemEditor({ item, allRecords, onSaveTitle, onSaveContent, onSav
   onNavigate: (id: number) => void;
   onOpenSidebar: () => void;
   focusEndKey?: number;
+  isArchived?: boolean;
+  isDeleted?: boolean;
 }) {
   const [titleDraft, setTitleDraft] = useState(String(item[TITLE_COL] ?? ''));
   const [iconDraft, setIconDraft]   = useState(String(item[ICON_COL] ?? ''));
@@ -182,7 +185,7 @@ export function ItemEditor({ item, allRecords, onSaveTitle, onSaveContent, onSav
     setTitleDraft(String(item[TITLE_COL] ?? ''));
     setIconDraft(String(item[ICON_COL] ?? ''));
     contentDraft.current = String(item[CONTENT_COL] ?? '');
-    if (!item[TITLE_COL]) titleRef.current?.focus();
+    if (!item[TITLE_COL] && !isDeleted) titleRef.current?.focus();
   }, [item.id]);
 
   const parseContent = (raw: unknown) => {
@@ -223,6 +226,7 @@ export function ItemEditor({ item, allRecords, onSaveTitle, onSaveContent, onSav
       }),
     ],
     content: parseContent(item[CONTENT_COL]),
+    editable: !isDeleted,
     onUpdate: ({ editor: ed }) => {
       userEditedContent.current = true;
       contentDraft.current = JSON.stringify(ed.getJSON());
@@ -244,11 +248,17 @@ export function ItemEditor({ item, allRecords, onSaveTitle, onSaveContent, onSav
     editor.commands.setContent(parseContent(item[CONTENT_COL]));
   }, [item.id, editor]);
 
+  // A deleted note stays visible but is frozen — no typing, no autosave.
+  useEffect(() => {
+    if (!editor || editor.isDestroyed) return;
+    editor.setEditable(!isDeleted);
+  }, [editor, isDeleted]);
+
   // Focus to end when parent increments focusEndKey (e.g. opening today's daily note)
   useEffect(() => {
-    if (!editor || editor.isDestroyed || !focusEndKey) return;
+    if (!editor || editor.isDestroyed || !focusEndKey || isDeleted) return;
     editor.commands.focus('end');
-  }, [focusEndKey, editor]);
+  }, [focusEndKey, editor, isDeleted]);
 
   const handleContentBlur = useCallback(() => {
     if (userEditedContent.current) {
@@ -264,6 +274,7 @@ export function ItemEditor({ item, allRecords, onSaveTitle, onSaveContent, onSav
   }, [editor, handleContentBlur]);
 
   const handleTitleBlur = () => {
+    if (isDeleted) return;
     const val = titleDraft.trim() || 'Sans titre';
     onSaveTitle(val);
     setTitleDraft(val);
@@ -284,8 +295,14 @@ export function ItemEditor({ item, allRecords, onSaveTitle, onSaveContent, onSav
         <NoteMentionList ref={mentionListRef} {...mentionState} />,
         document.body,
       )}
-      <div className="notes__editor">
+      <div className={`notes__editor${isDeleted ? ' notes__editor--locked' : ''}`}>
         <div className="notes__editor-inner">
+          {isArchived && !isDeleted && (
+            <div className="notes__status-badge">
+              <Icon name="inventory_2" />
+              <span>Page archivée</span>
+            </div>
+          )}
           {breadcrumbs.length > 0 && (
             <div className="notes__breadcrumb">
               {breadcrumbs.map((p, i) => (
@@ -308,12 +325,14 @@ export function ItemEditor({ item, allRecords, onSaveTitle, onSaveContent, onSav
             <EmojiPicker
               value={iconDraft}
               onChange={(emoji) => { setIconDraft(emoji); onSaveIcon(emoji); }}
+              disabled={isDeleted}
             />
             <input
               ref={titleRef}
               className="notes__note-title"
               value={titleDraft}
               placeholder="Sans titre"
+              readOnly={isDeleted}
               onChange={(e) => setTitleDraft(e.target.value)}
               onBlur={handleTitleBlur}
               onKeyDown={(e) => {
@@ -323,7 +342,7 @@ export function ItemEditor({ item, allRecords, onSaveTitle, onSaveContent, onSav
           </div>
 
           <div className="notes__tiptap-wrap" onClick={handleEditorClick}>
-            {editor && (
+            {editor && !isDeleted && (
               <BubbleMenu editor={editor} options={{ placement: 'top', offset: 8 }}>
                 <div className="rte-bubble">
                   <TbBtn icon="format_bold"          title="Gras"            active={editor.isActive('bold')}                  onClick={() => editor.chain().focus().toggleBold().run()} />
@@ -343,6 +362,15 @@ export function ItemEditor({ item, allRecords, onSaveTitle, onSaveContent, onSav
             <EditorContent editor={editor} />
           </div>
         </div>
+        {isDeleted && (
+          <div className="notes__deleted-overlay">
+            <div className="notes__deleted-card">
+              <Icon name="delete" className="notes__deleted-icon" />
+              <p className="notes__deleted-title">Cette page est supprimée</p>
+              <p className="notes__deleted-text">Elle est en lecture seule et ne peut plus être modifiée.</p>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
