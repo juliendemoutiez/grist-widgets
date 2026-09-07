@@ -1,0 +1,98 @@
+{
+  "initialScreen": "OrganisationForm",
+  "screens": {
+    "OrganisationForm": {
+      "mode": "currentRecord",
+      "table": "Organisations",
+      "titleColId": "Nom",
+      "titleDefault": "Nouvelle organisation",
+      "titlePlaceholder": "Nom de l'organisation...",
+      "headerDateColId": "Creee_le",
+      "headerDatePrefix": "Créée",
+      "newRecordLabel": "Nouvelle organisation",
+      "emptyMessage": "Sélectionnez une organisation",
+      "fields": [
+        { "colId": "Statut", "icon": "check_circle", "label": "Statut" },
+        { "colId": "Type", "icon": "category", "label": "Type", "createChoice": true },
+        {
+          "colId": "Contacts",
+          "icon": "group",
+          "label": "Contacts",
+          "addLabel": "Ajouter un contact",
+          "refLabelCol": "Nom_complet",
+          "refAddScreen": "ContactSubForm",
+          "refEditScreen": "ContactSubForm"
+        }
+      ],
+      "sections": [
+        {
+          "type": "comment",
+          "col": "Commentaires",
+          "title": "Commentaires",
+          "icon": "chat"
+        },
+        {
+          "type": "timeline",
+          "title": "Interactions",
+          "icon": "forum",
+          "table": "Interactions",
+          "filterCol": "Organisation",
+          "refType": "Ref",
+          "dateCol": "Date",
+          "typeCol": "Type",
+          "detailCol": "Sujet",
+          "addScreen": "InteractionSubForm",
+          "addDateCol": "Date",
+          "editScreen": "InteractionSubForm",
+          "emptyMessage": "Aucune interaction"
+        }
+      ]
+    },
+    "ContactSubForm": {
+      "mode": "subForm",
+      "table": "Contacts",
+      "titleColId": "Nom_complet",
+      "titleReadOnly": true,
+      "titleDefault": "Nouveau contact",
+      "titlePlaceholder": "Nom du contact...",
+      "headerDateColId": "Cree_le",
+      "headerDatePrefix": "Créé",
+      "fields": [
+        { "colId": "Prenom", "icon": "person", "label": "Prénom", "transform": "capitalize" },
+        { "colId": "Nom_de_famille", "icon": "badge", "label": "Nom", "transform": "uppercase" },
+        { "colId": "Email", "icon": "mail", "label": "E-mail", "mailto": true },
+        { "colId": "Poste", "icon": "work", "label": "Poste" },
+        { "colId": "Organisation", "icon": "domain", "label": "Organisation", "refLabelCol": "Nom" }
+      ]
+    },
+    "InteractionSubForm": {
+      "mode": "subForm",
+      "table": "Interactions",
+      "titleColId": "Date",
+      "titleReadOnly": true,
+      "titlePrefix": "Interaction du ",
+      "titleDefault": "Nouvelle interaction",
+      "titlePlaceholder": "Interaction...",
+      "headerDateColId": "Creee_le",
+      "headerDatePrefix": "Créée",
+      "fields": [
+        { "colId": "Date", "icon": "calendar_today", "label": "Date" },
+        { "colId": "Type", "icon": "label", "label": "Type", "createChoice": true },
+        { "colId": "Canal", "icon": "send", "label": "Canal", "createChoice": true },
+        { "colId": "Activite", "icon": "bolt", "label": "Activité", "createChoice": true },
+        { "colId": "Source", "icon": "inbox", "label": "Source", "createChoice": true },
+        { "colId": "Sujet", "icon": "subject", "label": "Sujet" },
+        {
+          "colId": "Contacts",
+          "icon": "group",
+          "label": "Contacts",
+          "addLabel": "Ajouter un contact",
+          "refLabelCol": "Nom_complet",
+          "refAddScreen": "ContactSubForm",
+          "refEditScreen": "ContactSubForm"
+        },
+        { "colId": "Organisation", "icon": "domain", "label": "Organisation", "refLabelCol": "Nom" }
+      ]
+    }
+  }
+}

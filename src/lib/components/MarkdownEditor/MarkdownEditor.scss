@@ -27,7 +27,7 @@
 
   &__body {
     background: var(--bg-surface);
-    min-height: 80px;
+    min-height: 30px;
     overflow-wrap: break-word;
     cursor: text;
     padding-top: 0.5rem;
@@ -92,7 +92,7 @@
   line-height: 1.6;
   color: var(--text-primary);
   outline: none;
-  min-height: 80px;
+  min-height: 30px;
 
   > *:first-child {
     margin-top: 0;

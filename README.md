@@ -27,6 +27,7 @@ widget côté Grist. Les configurations utilisées en production sont archivées
 | Fichier | Widget | Document |
 | --- | --- | --- |
 | `todo-form.json` | nested-form | fiche d'une tâche (table `Taches`) — complète le widget Todo |
+| `ma-boussole-organisation-form.json` | nested-form | fiche d'une organisation (table `Organisations`) — contacts, timeline des interactions |
 
 Pour l'appliquer : ouvrir le widget dans Grist, coller le contenu du fichier dans les
 options, et mapper les colonnes citées par la configuration.
