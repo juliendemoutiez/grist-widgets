@@ -44,6 +44,7 @@
           "addScreen": "InteractionSubForm",
           "addDateCol": "Date",
           "editScreen": "InteractionSubForm",
+          "deletedCol": "Supprimee",
           "emptyMessage": "Aucune interaction"
         }
       ]
@@ -81,7 +82,6 @@
         { "colId": "Canal", "icon": "send", "label": "Canal", "createChoice": true },
         { "colId": "Activite", "icon": "bolt", "label": "Activité", "createChoice": true },
         { "colId": "Source", "icon": "inbox", "label": "Source", "createChoice": true },
-        { "colId": "Sujet", "icon": "subject", "label": "Sujet" },
         {
           "colId": "Contacts",
           "icon": "group",
@@ -92,6 +92,14 @@
           "refEditScreen": "ContactSubForm"
         },
         { "colId": "Organisation", "icon": "domain", "label": "Organisation", "refLabelCol": "Nom" }
+      ],
+      "sections": [
+        {
+          "type": "comment",
+          "col": "Sujet",
+          "title": "Sujet",
+          "icon": "subject"
+        }
       ]
     }
   }

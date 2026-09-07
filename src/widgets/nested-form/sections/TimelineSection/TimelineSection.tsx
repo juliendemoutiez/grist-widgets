@@ -1,6 +1,6 @@
 import './TimelineSection.scss';
 import { useEffect, useRef, useState } from 'react';
-import { Icon, useGrist, useNavigation } from '@lib';
+import { Icon, Menu, MenuItem, useGrist, useNavigation } from '@lib';
 import type { TimelineConfig } from '@lib';
 
 /** Strip markdown syntax and collapse to a single line. */
@@ -23,37 +23,6 @@ interface TimelineItem {
 interface TimelineProps {
   config: TimelineConfig;
   filterId: number;
-}
-
-/** Dropdown menu with a delete action, shown from the item's three-dot button. */
-function TimelineItemMenu({ onDelete, onClose }: { onDelete: () => void; onClose: () => void }) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) onClose();
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, [onClose]);
-
-  return (
-    <div
-      ref={ref}
-      className="timeline__dropdown"
-      onClick={(e) => e.stopPropagation()}
-      onMouseDown={(e) => e.stopPropagation()}
-    >
-      <button
-        type="button"
-        className="timeline__dropdown-item timeline__dropdown-item--danger"
-        onClick={() => { onDelete(); onClose(); }}
-      >
-        <Icon name="delete" />
-        Supprimer
-      </button>
-    </div>
-  );
 }
 
 export function TimelineSection({ config, filterId }: TimelineProps) {
@@ -219,24 +188,25 @@ export function TimelineSection({ config, filterId }: TimelineProps) {
                     )}
                     {config.deletedCol && (
                       <div className="timeline__menu-wrap">
-                        <button
-                          type="button"
-                          className="timeline__action-btn"
-                          onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setMenuOpenId((cur) => (cur === item.id ? null : item.id));
-                          }}
-                          aria-label="Plus d'options"
+                        <Menu
+                          open={menuOpenId === item.id}
+                          onOpenChange={(open) => setMenuOpenId(open ? item.id : null)}
+                          align="end"
+                          trigger={
+                            <button
+                              type="button"
+                              className="timeline__action-btn"
+                              onClick={(e) => e.stopPropagation()}
+                              aria-label="Plus d'options"
+                            >
+                              <Icon name="more_horiz" />
+                            </button>
+                          }
                         >
-                          <Icon name="more_horiz" />
-                        </button>
-                        {menuOpenId === item.id && (
-                          <TimelineItemMenu
-                            onDelete={() => handleDelete(item.id)}
-                            onClose={() => setMenuOpenId(null)}
-                          />
-                        )}
+                          <MenuItem icon="delete" danger onSelect={() => handleDelete(item.id)}>
+                            Supprimer
+                          </MenuItem>
+                        </Menu>
                       </div>
                     )}
                   </div>
