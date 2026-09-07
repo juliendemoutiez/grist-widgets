@@ -17,6 +17,7 @@ export default defineConfig({
         notes: path.resolve(import.meta.dirname, 'pages/notes.html'),
         todo: path.resolve(import.meta.dirname, 'pages/todo.html'),
         'nested-form': path.resolve(import.meta.dirname, 'pages/nested-form.html'),
+        kanban: path.resolve(import.meta.dirname, 'pages/kanban.html'),
       },
     },
   },

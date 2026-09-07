@@ -1,0 +1,17 @@
+{
+  "statuses": [
+    "A contacter",
+    "Contactée",
+    "En discussion",
+    "Mission lancée",
+    "En pause",
+    "Pas intéressée"
+  ],
+  "columns": {
+    "status": "Statut",
+    "title": "Nom",
+    "badges": [
+      { "key": "Type", "icon": "category" }
+    ]
+  }
+}

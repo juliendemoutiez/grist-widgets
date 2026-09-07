@@ -8,6 +8,7 @@ et servis en pages statiques.
 | Notes | `pages/notes.html` | Éditeur de notes hiérarchiques (tiptap) : arborescence, mentions `[[…]]`, emojis, archivage |
 | Todo | `pages/todo.html` | Liste de tâches groupée par projet / échéance / priorité, avec tri et filtres |
 | Formulaire imbriqué | `pages/nested-form.html` | Fiche de saisie configurable en JSON : champs, sous-tâches, commentaires, historique |
+| Kanban | `pages/kanban.html` | Tableau par statut, configurable en JSON : cartes déplaçables en glisser-déposer |
 
 ## Utilisation dans Grist
 
@@ -28,6 +29,7 @@ widget côté Grist. Les configurations utilisées en production sont archivées
 | --- | --- | --- |
 | `todo-form.json` | nested-form | fiche d'une tâche (table `Taches`) — complète le widget Todo |
 | `ma-boussole-organisation-form.json` | nested-form | fiche d'une organisation (table `Organisations`) — contacts, timeline des interactions |
+| `ma-boussole-kanban.json` | kanban | organisations par statut (table `Organisations`) |
 
 Pour l'appliquer : ouvrir le widget dans Grist, coller le contenu du fichier dans les
 options, et mapper les colonnes citées par la configuration.
@@ -70,6 +72,7 @@ src/
   widgets/
     notes/  todo/       un dossier par widget (composants + SCSS + main.tsx)
     nested-form/
+    kanban/
 ```
 
 L'UI repose sur des primitives [Radix](https://www.radix-ui.com/) sans style, habillées avec

@@ -59,7 +59,7 @@
       "headerDatePrefix": "Créé",
       "fields": [
         { "colId": "Prenom", "icon": "person", "label": "Prénom", "transform": "capitalize" },
-        { "colId": "Nom_de_famille", "icon": "badge", "label": "Nom", "transform": "uppercase" },
+        { "colId": "Nom", "icon": "badge", "label": "Nom", "transform": "uppercase" },
         { "colId": "Email", "icon": "mail", "label": "E-mail", "mailto": true },
         { "colId": "Poste", "icon": "work", "label": "Poste" },
         { "colId": "Organisation", "icon": "domain", "label": "Organisation", "refLabelCol": "Nom" }
