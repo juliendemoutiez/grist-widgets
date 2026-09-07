@@ -1,10 +1,11 @@
 import {
   AlignLeft, Archive, ArrowDownAZ, ArrowLeft, ArrowRight, ArrowUpDown, Bold, Briefcase,
   Building2, CalendarCheck, CalendarDays, CalendarRange, Check, ChevronDown, ChevronLeft,
-  ChevronRight, Circle, CircleCheck, Clock, Code, Ellipsis, FileText, Flag, FolderOpen,
-  GripVertical, IdCard, Inbox, Italic, Link, List, ListChecks, ListFilter, ListOrdered, Mail,
-  Menu, MessageSquare, MessagesSquare, Minus, Pencil, Plus, Quote, RefreshCw, Search, Send,
-  Settings, Shapes, SquarePen, Strikethrough, Tag, Tags, Trash2, User, Users, X, Zap,
+  ChevronRight, Circle, CircleCheck, Clock, Code, Ellipsis, Euro, FileText, Flag, FolderOpen,
+  GripVertical, Hash, IdCard, Inbox, Italic, Link, List, ListChecks, ListFilter, ListOrdered,
+  Mail, Map, MapPin, Menu, MessageSquare, MessagesSquare, Minus, Pencil, Plus, Quote,
+  RefreshCw, Search, Send, Settings, Shapes, SquarePen, Strikethrough, Tag, Tags, Trash2,
+  User, Users, X, Zap,
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import type { ComponentType } from 'react';
@@ -42,6 +43,7 @@ const ICONS: Record<string, IconComponent> = {
   drag_indicator:       GripVertical,
   edit:                 Pencil,
   edit_note:            SquarePen,
+  euro:                 Euro,
   expand_more:          ChevronDown,
   filter_list:          ListFilter,
   flag:                 Flag,
@@ -60,9 +62,12 @@ const ICONS: Record<string, IconComponent> = {
   label:                Tag,
   link:                 Link,
   mail:                 Mail,
+  map:                  Map,
   menu:                 Menu,
   more_horiz:           Ellipsis,
+  numbers:              Hash,
   person:               User,
+  place:                MapPin,
   schedule:             Clock,
   search:               Search,
   sell:                 Tags,

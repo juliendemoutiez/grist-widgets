@@ -14,6 +14,15 @@
       "fields": [
         { "colId": "Statut", "icon": "check_circle", "label": "Statut" },
         { "colId": "Type", "icon": "category", "label": "Type", "createChoice": true },
+        { "colId": "Domaine", "icon": "label", "label": "Domaine" },
+        { "colId": "Site_web", "icon": "link", "label": "Site web" },
+        { "colId": "Email", "icon": "mail", "label": "E-mail", "mailto": true },
+        { "colId": "RNA", "icon": "badge", "label": "RNA", "transform": "uppercase" },
+        { "colId": "SIRET", "icon": "numbers", "label": "SIRET" },
+        { "colId": "Adresse_du_siege", "icon": "place", "label": "Adresse du siège" },
+        { "colId": "Departement_du_siege", "icon": "map", "label": "Département du siège" },
+        { "colId": "Effectifs", "icon": "person", "label": "Effectifs" },
+        { "colId": "Budget_annuel", "icon": "euro", "label": "Budget annuel" },
         {
           "colId": "Contacts",
           "icon": "group",
@@ -63,7 +72,7 @@
         { "colId": "Nom", "icon": "badge", "label": "Nom", "transform": "uppercase" },
         { "colId": "Email", "icon": "mail", "label": "E-mail", "mailto": true },
         { "colId": "Poste", "icon": "work", "label": "Poste" },
-        { "colId": "Organisation", "icon": "domain", "label": "Organisation", "refLabelCol": "Nom" }
+        { "colId": "Organisations", "icon": "domain", "label": "Organisations", "refLabelCol": "Nom", "readOnly": true }
       ]
     },
     "InteractionSubForm": {
