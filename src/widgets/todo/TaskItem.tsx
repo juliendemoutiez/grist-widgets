@@ -233,7 +233,7 @@ export function TaskItem({
         onClick={(e) => { e.stopPropagation(); onToggle(!isDone); }}
         aria-label={isDone ? 'Marquer comme non terminé' : 'Marquer comme terminé'}
       >
-        <Icon name="check" className="todo-widget__checkbox-check" />
+        <Icon name="check" className="todo-widget__checkbox-check" strokeWidth={4} />
         {priority && (
           <Icon name="flag" className="todo-widget__checkbox-flag" style={priorityColor ? { color: priorityColor } : undefined} />
         )}
