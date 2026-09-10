@@ -14,7 +14,8 @@
       "fields": [
         { "colId": "Statut", "icon": "check_circle", "label": "Statut" },
         { "colId": "Type", "icon": "category", "label": "Type", "createChoice": true },
-        { "colId": "Domaine", "icon": "label", "label": "Domaine" },
+        { "colId": "Domaines", "icon": "label", "label": "Domaines" },
+        { "colId": "Tags", "icon": "label", "label": "Tags" },
         { "colId": "Site_web", "icon": "link", "label": "Site web" },
         { "colId": "Email", "icon": "mail", "label": "E-mail", "mailto": true },
         { "colId": "RNA", "icon": "badge", "label": "RNA", "transform": "uppercase" },

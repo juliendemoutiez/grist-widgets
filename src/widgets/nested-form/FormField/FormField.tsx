@@ -168,8 +168,8 @@ export function FormField({ colId: _colId, icon, label, value, onChange, onBlur,
           const color = randomChoiceColor();
           setExtraChoices((prev) => [...prev, { value: newLabel, label: newLabel, ...color }]);
           onChange(newLabel);
-          onBlur?.();
-          onCreateChoice(newLabel, color).catch(() => {});
+          // Save once the choice exists, so widgets refreshing on the record change see it.
+          onCreateChoice(newLabel, color).catch(() => {}).finally(() => onBlur?.());
         }
       : undefined;
 
@@ -221,10 +221,10 @@ export function FormField({ colId: _colId, icon, label, value, onChange, onBlur,
 
     const handleCreate = onCreateChoice
       ? (newLabel: string) => {
-          setExtraChoices((prev) => [...prev, { value: newLabel, label: newLabel }]);
+          const color = randomChoiceColor();
+          setExtraChoices((prev) => [...prev, { value: newLabel, label: newLabel, ...color }]);
           onChange(['L', ...arrValue, newLabel]);
-          onBlur?.();
-          onCreateChoice(newLabel).catch(() => {});
+          onCreateChoice(newLabel, color).catch(() => {}).finally(() => onBlur?.());
         }
       : undefined;
 

@@ -1,7 +1,8 @@
 import './FormScreen.scss';
+import { useRef } from 'react';
 import type { ReactNode } from 'react';
 import { Icon, useGrist } from '@lib';
-import type { FormConfig } from '@lib';
+import type { FormConfig, ColumnMeta } from '@lib';
 import { FormShell } from '../FormShell/FormShell';
 import { FormField } from '../FormField/FormField';
 import { useFormData } from './useFormData';
@@ -33,6 +34,9 @@ function parseAlert(raw: string): { type: AlertType; message: string } {
 
 export function FormScreen({ config, mode, children }: FormScreenProps) {
   const { updateColumnWidgetOptions } = useGrist();
+  // columnMeta is loaded once, so after a choice is created it no longer reflects the column.
+  // Keep the options we last wrote so a second creation doesn't erase the first one.
+  const writtenOptions = useRef<Record<string, NonNullable<ColumnMeta['widgetOptions']>>>({});
   const {
     title, fields, refReloadKey, recordId, activeRecordId, headerDate, columnMeta, readOnlyFields,
     onTitleChange, onTitleBlur, onFieldChange, onFieldBlur,
@@ -92,12 +96,13 @@ export function FormScreen({ config, mode, children }: FormScreenProps) {
               onCreateChoice={
                 f.createChoice
                   ? async (newLabel, color) => {
-                      const meta = columnMeta[f.colId];
-                      const current = meta?.widgetOptions ?? {};
+                      const current = writtenOptions.current[f.colId] ?? columnMeta[f.colId]?.widgetOptions ?? {};
                       const choices = [...(current.choices ?? []), newLabel];
                       const choiceOptions = { ...(current.choiceOptions ?? {}) };
                       if (color) choiceOptions[newLabel] = { fillColor: color.fillColor, textColor: color.textColor };
-                      await updateColumnWidgetOptions(config.table, f.colId, { ...current, choices, choiceOptions });
+                      const next = { ...current, choices, choiceOptions };
+                      writtenOptions.current[f.colId] = next;
+                      await updateColumnWidgetOptions(config.table, f.colId, next);
                     }
                   : undefined
               }
