@@ -11,8 +11,8 @@ interface SubFormNavProps {
   parentTable?: string;
   parentRecordId?: string;
   parentColId?: string;
-  /** Whether parentColId is a RefList, in which case the new id is appended rather than set. */
-  parentColIsRefList?: boolean;
+  /** Current ids of parentColId when it is a RefList: the new id is appended to them rather than set. */
+  parentRefListIds?: number[];
   /** Extra field values to set on the new record at creation time. */
   initialFields?: Record<string, unknown>;
 }
@@ -64,7 +64,7 @@ export function useFormData(config: FormConfig, mode: 'currentRecord' | 'subForm
   const navProps = mode === 'subForm'
     ? (stack[stack.length - 1]?.props ?? {}) as SubFormNavProps
     : undefined;
-  const { editId, editLabel, parentTable, parentRecordId, parentColId, parentColIsRefList, initialFields } = navProps ?? {};
+  const { editId, editLabel, parentTable, parentRecordId, parentColId, parentRefListIds, initialFields } = navProps ?? {};
 
   const subFormRecordId = useRef<number | null>(editId ? Number(editId) : null);
   // 'loading': record not yet created/fetched; 'ready': safe to save field-level changes.
@@ -167,16 +167,9 @@ export function useFormData(config: FormConfig, mode: 'currentRecord' | 'subForm
           if (parentTable && parentRecordId && parentColId) {
             // Setting a RefList to the bare new id would drop the parent's other references
             // until this screen pops — for good if the user navigates away first.
-            let parentValue: unknown = newId;
-            if (parentColIsRefList) {
-              const parent = await fetchTable(parentTable);
-              const parentIdx = parent.id.indexOf(Number(parentRecordId));
-              const current = parentIdx !== -1 ? parent[parentColId]?.[parentIdx] : null;
-              const existing = Array.isArray(current) && current[0] === 'L'
-                ? current.slice(1).map(Number)
-                : [];
-              parentValue = ['L', ...existing.filter((id) => id !== newId), newId];
-            }
+            const parentValue = parentRefListIds
+              ? ['L', ...parentRefListIds.filter((id) => id !== newId), newId]
+              : newId;
             await updateRecord(parentTable, Number(parentRecordId), { [parentColId]: parentValue });
           }
 
@@ -386,11 +379,15 @@ export function useFormData(config: FormConfig, mode: 'currentRecord' | 'subForm
     pendingRefColId.current = colId;
     pendingRefPushDepth.current = stack.length;
     const parentId = mode === 'currentRecord' ? recordId : subFormRecordId.current;
+    const current = fieldsRef.current[colId];
     push(refAddScreen, {
       parentTable: config.table,
       parentRecordId: parentId != null ? String(parentId) : undefined,
       parentColId: colId,
-      parentColIsRefList: (columnMeta[colId]?.type ?? '').startsWith('RefList:'),
+      // The list as this screen shows it — the same one the pop handler appends to.
+      parentRefListIds: (columnMeta[colId]?.type ?? '').startsWith('RefList:')
+        ? (Array.isArray(current) && current[0] === 'L' ? current.slice(1).map(Number) : [])
+        : undefined,
     });
   }, [push, stack.length, mode, recordId, config.table, columnMeta]);
 
