@@ -33,6 +33,11 @@ interface GristContextValue {
   deleteLinkedRecord: (id: number) => Promise<void>;
   /** Fetch all rows from a table (column-oriented). */
   fetchTable: (tableId: string) => Promise<FetchedTable>;
+  /**
+   * Fetch one row of the widget's linked table with raw values, as fetchTable returns them
+   * (RefList as ['L', ...], dates in seconds) — without transferring the whole table.
+   */
+  fetchLinkedRow: (rowId: number) => Promise<RowRecord>;
   /** Create a new record in a table, returns the new row id. */
   createRecord: (tableId: string, fields: Record<string, unknown>) => Promise<number>;
   /** Update a record in any table. */
@@ -154,6 +159,11 @@ export function GristProvider({ children, allowSelectBy }: { children: ReactNode
     return data;
   }, []);
 
+  const fetchLinkedRow = useCallback(async (rowId: number) => {
+    if (!grist) throw new Error('Grist API not available');
+    return grist.fetchSelectedRecord(rowId, { keepEncoded: true, includeColumns: 'all' });
+  }, []);
+
   const createRecord = useCallback(async (tableId: string, fields: Record<string, unknown>) => {
     if (!grist) throw new Error('Grist API not available');
     const table = await grist.getTable(tableId);
@@ -218,11 +228,11 @@ export function GristProvider({ children, allowSelectBy }: { children: ReactNode
     record, allRecords, isReady, dataVersion, widgetOptions, saveWidgetOptions,
     isConfiguringWidget, setIsConfiguringWidget,
     updateCurrentRecord, updateLinkedRecord, createLinkedRecord, deleteLinkedRecord,
-    fetchTable, createRecord, updateRecord, deleteRecord, updateColumnWidgetOptions,
+    fetchTable, fetchLinkedRow, createRecord, updateRecord, deleteRecord, updateColumnWidgetOptions,
     setCursorPos, setSelectedRows, fetchCurrentTable,
   }), [record, allRecords, isReady, dataVersion, widgetOptions, saveWidgetOptions,
     isConfiguringWidget, updateCurrentRecord, updateLinkedRecord, createLinkedRecord,
-    deleteLinkedRecord, fetchTable, createRecord, updateRecord, deleteRecord,
+    deleteLinkedRecord, fetchTable, fetchLinkedRow, createRecord, updateRecord, deleteRecord,
     updateColumnWidgetOptions, setCursorPos, setSelectedRows, fetchCurrentTable]);
 
   return (

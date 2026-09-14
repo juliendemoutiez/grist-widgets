@@ -30,6 +30,7 @@ widget côté Grist. Les configurations utilisées en production sont archivées
 | `todo-form.json` | nested-form | fiche d'une tâche (table `Taches`) — complète le widget Todo |
 | `ma-boussole-organisation-form.json` | nested-form | fiche d'une organisation (table `Organisations`) — contacts, timeline des interactions |
 | `ma-boussole-kanban.json` | kanban | organisations par statut (table `Organisations`) |
+| `aquasobra-entreprise-form.json` | nested-form | fiche d'une entreprise (table `Entreprises`) — contacts, timeline des rapports d'inspection (table de synthèse de `Inspections`) |
 
 Pour l'appliquer : ouvrir le widget dans Grist, coller le contenu du fichier dans les
 options, et mapper les colonnes citées par la configuration.

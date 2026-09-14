@@ -11,6 +11,8 @@ interface SubFormNavProps {
   parentTable?: string;
   parentRecordId?: string;
   parentColId?: string;
+  /** Whether parentColId is a RefList, in which case the new id is appended rather than set. */
+  parentColIsRefList?: boolean;
   /** Extra field values to set on the new record at creation time. */
   initialFields?: Record<string, unknown>;
 }
@@ -40,7 +42,7 @@ export interface UseFormDataReturn {
 }
 
 export function useFormData(config: FormConfig, mode: 'currentRecord' | 'subForm'): UseFormDataReturn {
-  const { record, updateCurrentRecord, fetchTable, createRecord, updateRecord, setCursorPos } = useGrist();
+  const { record, updateCurrentRecord, fetchTable, fetchLinkedRow, createRecord, updateRecord, setCursorPos } = useGrist();
   const columnMeta = useColumnMeta(config.table);
   const readOnlyFields = useReadOnlyFields(config.table);
   const { push, pop, resetToRoot, stack, popResult, clearPopResult } = useNavigation();
@@ -62,7 +64,7 @@ export function useFormData(config: FormConfig, mode: 'currentRecord' | 'subForm
   const navProps = mode === 'subForm'
     ? (stack[stack.length - 1]?.props ?? {}) as SubFormNavProps
     : undefined;
-  const { editId, editLabel, parentTable, parentRecordId, parentColId, initialFields } = navProps ?? {};
+  const { editId, editLabel, parentTable, parentRecordId, parentColId, parentColIsRefList, initialFields } = navProps ?? {};
 
   const subFormRecordId = useRef<number | null>(editId ? Number(editId) : null);
   // 'loading': record not yet created/fetched; 'ready': safe to save field-level changes.
@@ -95,31 +97,21 @@ export function useFormData(config: FormConfig, mode: 'currentRecord' | 'subForm
       v == null || (typeof v === 'number' && isNaN(v)) ? null : v;
 
     // grist.onRecord (keepEncoded:false) decodes RefList to display labels and DateTime to
-    // Date objects — neither is what our field renderers expect. fetchTable returns the raw
-    // stored values: ['L', rowId, ...] for RefList, seconds for DateTime.
-    fetchTable(config.table)
-      .then(table => {
+    // Date objects — neither is what our field renderers expect. fetchLinkedRow returns the raw
+    // stored values (['L', rowId, ...] for RefList, seconds for DateTime) of this row only:
+    // fetching the whole table cost megabytes per selection on large tables.
+    fetchLinkedRow(recordId)
+      .then(row => {
         if (cancelled) return;
-        const rowIdx = (table.id as number[]).indexOf(recordId);
-        if (rowIdx === -1) return;
         const vals: Record<string, unknown> = {};
-        for (const f of config.fields) {
-          const col = table[f.colId] as unknown[] | undefined;
-          vals[f.colId] = sanitize(col?.[rowIdx] ?? null);
-        }
-        if (config.headerDateColId) {
-          const col = table[config.headerDateColId] as unknown[] | undefined;
-          vals[config.headerDateColId] = sanitize(col?.[rowIdx] ?? null);
-        }
-        if (config.alertColId) {
-          const col = table[config.alertColId] as unknown[] | undefined;
-          vals[config.alertColId] = sanitize(col?.[rowIdx] ?? null);
-        }
+        for (const f of config.fields) vals[f.colId] = sanitize(row[f.colId] ?? null);
+        if (config.headerDateColId) vals[config.headerDateColId] = sanitize(row[config.headerDateColId] ?? null);
+        if (config.alertColId) vals[config.alertColId] = sanitize(row[config.alertColId] ?? null);
         setFields(vals);
       })
       .catch(err => {
         if (cancelled) return;
-        console.warn('[useFormData] fetchTable failed, falling back to onRecord data:', err);
+        console.warn('[useFormData] fetchLinkedRow failed, falling back to onRecord data:', err);
         const vals: Record<string, unknown> = {};
         for (const f of config.fields) vals[f.colId] = sanitize(record[f.colId]);
         if (config.headerDateColId) vals[config.headerDateColId] = sanitize(record[config.headerDateColId]);
@@ -173,7 +165,19 @@ export function useFormData(config: FormConfig, mode: 'currentRecord' | 'subForm
           subFormRecordId.current = newId;
 
           if (parentTable && parentRecordId && parentColId) {
-            await updateRecord(parentTable, Number(parentRecordId), { [parentColId]: newId });
+            // Setting a RefList to the bare new id would drop the parent's other references
+            // until this screen pops — for good if the user navigates away first.
+            let parentValue: unknown = newId;
+            if (parentColIsRefList) {
+              const parent = await fetchTable(parentTable);
+              const parentIdx = parent.id.indexOf(Number(parentRecordId));
+              const current = parentIdx !== -1 ? parent[parentColId]?.[parentIdx] : null;
+              const existing = Array.isArray(current) && current[0] === 'L'
+                ? current.slice(1).map(Number)
+                : [];
+              parentValue = ['L', ...existing.filter((id) => id !== newId), newId];
+            }
+            await updateRecord(parentTable, Number(parentRecordId), { [parentColId]: parentValue });
           }
 
           try {
@@ -225,13 +229,19 @@ export function useFormData(config: FormConfig, mode: 'currentRecord' | 'subForm
   const refreshTitle = useCallback(async (rowId: number) => {
     if (!config.titleReadOnly || config.titleFormula || config.titlePrefix) return;
     try {
-      const table = await fetchTable(config.table);
-      const rowIdx = table.id.indexOf(rowId);
-      if (rowIdx === -1) return;
-      const titleVal = table[config.titleColId]?.[rowIdx];
+      let titleVal: unknown;
+      if (mode === 'currentRecord') {
+        // The current record belongs to the widget's linked table: fetch that row only.
+        titleVal = (await fetchLinkedRow(rowId))[config.titleColId];
+      } else {
+        const table = await fetchTable(config.table);
+        const rowIdx = table.id.indexOf(rowId);
+        if (rowIdx === -1) return;
+        titleVal = table[config.titleColId]?.[rowIdx];
+      }
       if (titleVal != null) setTitle(String(titleVal));
     } catch { /* ignore */ }
-  }, [fetchTable, config.table, config.titleColId, config.titleReadOnly, config.titleFormula]);
+  }, [mode, fetchLinkedRow, fetchTable, config.table, config.titleColId, config.titleReadOnly, config.titleFormula]);
 
   // ── Saving ───────────────────────────────────────────────────────────────────
 
@@ -380,8 +390,9 @@ export function useFormData(config: FormConfig, mode: 'currentRecord' | 'subForm
       parentTable: config.table,
       parentRecordId: parentId != null ? String(parentId) : undefined,
       parentColId: colId,
+      parentColIsRefList: (columnMeta[colId]?.type ?? '').startsWith('RefList:'),
     });
-  }, [push, stack.length, mode, recordId, config.table]);
+  }, [push, stack.length, mode, recordId, config.table, columnMeta]);
 
   const onRefEdit = useCallback((colId: string, refEditScreen: string, value: string, label: string) => {
     pendingRefColId.current = colId;

@@ -156,9 +156,11 @@ export function TimelineSection({ config, filterId }: TimelineProps) {
       <div className="section-title">
         <Icon name={config.icon} />
         {config.title}
-        <button type="button" className="section-title__add" onClick={handleAdd}>
-          <Icon name="add" />
-        </button>
+        {!config.readOnly && (
+          <button type="button" className="section-title__add" onClick={handleAdd}>
+            <Icon name="add" />
+          </button>
+        )}
       </div>
       {!loading && items.length === 0 && (
         <div className="timeline-empty">{config.emptyMessage ?? 'Aucun élément'}</div>

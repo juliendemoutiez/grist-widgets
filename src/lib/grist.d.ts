@@ -70,7 +70,8 @@ declare module 'grist-plugin-api' {
 
     fetchSelectedRecord(
       rowId: number,
-      options?: { keepEncoded?: boolean },
+      /** includeColumns: 'shown' (default) only returns columns visible in the widget. */
+      options?: { keepEncoded?: boolean; includeColumns?: 'shown' | 'normal' | 'all' },
     ): Promise<RowRecord>;
 
     fetchSelectedTable(
