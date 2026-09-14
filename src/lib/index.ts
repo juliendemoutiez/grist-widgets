@@ -31,7 +31,7 @@ export { Button } from './ui/Button';
 
 // Shared types
 export type {
-  ScreenName, ScreenEntry, FieldDef, FormConfig, TimelineConfig, JsonFormConfig,
-  TimelineSectionConfig, TasksSectionConfig, CommentSectionConfig, SectionConfig,
+  ScreenName, ScreenEntry, FieldDef, FormConfig, TimelineConfig, ListConfig, JsonFormConfig,
+  TimelineSectionConfig, ListSectionConfig, TasksSectionConfig, CommentSectionConfig, SectionConfig,
   JsonScreenConfig, NestedFormWidgetConfig,
 } from './types';

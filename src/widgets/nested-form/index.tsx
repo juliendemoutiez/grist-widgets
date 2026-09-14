@@ -47,12 +47,18 @@ function validateConfig(parsed: unknown): string | null {
       for (const section of s.sections as unknown[]) {
         if (typeof section !== 'object' || section === null) return `A section in "${name}" must be an object`;
         const sec = section as Record<string, unknown>;
-        if (!['timeline', 'tasks', 'comment'].includes(sec.type as string))
-          return `Section type must be "timeline", "tasks", or "comment"`;
+        if (!['timeline', 'list', 'tasks', 'comment'].includes(sec.type as string))
+          return `Section type must be "timeline", "list", "tasks", or "comment"`;
         if (sec.type === 'timeline') {
           if (typeof sec.table !== 'string') return `Timeline section in "${name}": "table" must be a string`;
           if (typeof sec.addScreen !== 'string') return `Timeline section in "${name}": "addScreen" must be a string`;
           if (typeof sec.editScreen !== 'string') return `Timeline section in "${name}": "editScreen" must be a string`;
+        }
+        if (sec.type === 'list') {
+          if (typeof sec.table !== 'string') return `List section in "${name}": "table" must be a string`;
+          if (typeof sec.filterCol !== 'string') return `List section in "${name}": "filterCol" must be a string`;
+          if (typeof sec.titleCol !== 'string') return `List section in "${name}": "titleCol" must be a string`;
+          if (typeof sec.editScreen !== 'string') return `List section in "${name}": "editScreen" must be a string`;
         }
         if (sec.type === 'tasks') {
           if (typeof sec.table !== 'string') return `Tasks section in "${name}": "table" must be a string`;

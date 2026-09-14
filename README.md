@@ -7,7 +7,7 @@ et servis en pages statiques.
 | --- | --- | --- |
 | Notes | `pages/notes.html` | Éditeur de notes hiérarchiques (tiptap) : arborescence, mentions `[[…]]`, emojis, archivage |
 | Todo | `pages/todo.html` | Liste de tâches groupée par projet / échéance / priorité, avec tri et filtres |
-| Formulaire imbriqué | `pages/nested-form.html` | Fiche de saisie configurable en JSON : champs, sous-tâches, commentaires, historique |
+| Formulaire imbriqué | `pages/nested-form.html` | Fiche de saisie configurable en JSON : champs, listes liées, sous-tâches, commentaires, historique |
 | Kanban | `pages/kanban.html` | Tableau par statut, configurable en JSON : cartes déplaçables en glisser-déposer |
 
 ## Utilisation dans Grist

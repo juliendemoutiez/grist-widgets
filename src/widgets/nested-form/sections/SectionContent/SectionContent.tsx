@@ -1,7 +1,8 @@
 import '../sections.scss';
 import { useMemo } from 'react';
-import type { SectionConfig, TimelineSectionConfig, CommentSectionConfig } from '@lib';
+import type { SectionConfig, TimelineSectionConfig, ListSectionConfig, CommentSectionConfig } from '@lib';
 import { TimelineSection } from '../TimelineSection/TimelineSection';
+import { ListSection } from '../ListSection/ListSection';
 import { SubtasksSection } from '../SubtasksSection/SubtasksSection';
 import { CommentSection } from '../CommentSection/CommentSection';
 
@@ -18,8 +19,17 @@ export function SectionContent({ section, recordId, parentTable }: SectionConten
     return config;
   }, [section]);
 
+  const listConfig = useMemo(() => {
+    if (section.type !== 'list') return null;
+    const { type: _type, ...config } = section as ListSectionConfig;
+    return config;
+  }, [section]);
+
   if (section.type === 'timeline' && timelineConfig) {
     return <TimelineSection config={timelineConfig} filterId={recordId} />;
+  }
+  if (section.type === 'list' && listConfig) {
+    return <ListSection config={listConfig} filterId={recordId} />;
   }
   if (section.type === 'tasks') {
     return <SubtasksSection table={section.table} col={section.col} parentId={recordId} title={section.title} icon={section.icon} />;

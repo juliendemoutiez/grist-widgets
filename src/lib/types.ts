@@ -63,6 +63,36 @@ export interface TimelineConfig {
   emptyMessage?: string;
 }
 
+/** Declarative configuration for a list of related rows, e.g. an organisation's contacts. */
+export interface ListConfig {
+  /** Grist table to fetch items from, e.g. 'Contacts' */
+  table: string;
+  /** Column in that table referencing the parent record */
+  filterCol: string;
+  /** Whether filterCol is a plain Ref or a RefList */
+  refType: 'Ref' | 'RefList';
+  /** Column holding the item name, also used for its avatar */
+  titleCol: string;
+  /** Optional column shown under the name */
+  subtitleCol?: string;
+  /** Optional Choice column shown as a chip, coloured as in Grist */
+  badgeCol?: string;
+  /** Optional column holding an e-mail address, shown as a mailto: link */
+  mailCol?: string;
+  /** Optional column holding a URL, shown as an external link */
+  urlCol?: string;
+  /** Screen pushed when an item is clicked */
+  editScreen: ScreenName;
+  /** Screen pushed by the add button, with filterCol pre-set to the parent. No button when omitted. */
+  addScreen?: ScreenName;
+  /** Section heading */
+  title: string;
+  /** Material icon name for the section heading */
+  icon: string;
+  /** Message shown when the list is empty */
+  emptyMessage?: string;
+}
+
 /** JSON-serializable form config (function fields excluded). */
 export type JsonFormConfig = Omit<FormConfig, 'titleFormula'>;
 
@@ -92,7 +122,11 @@ export interface CommentSectionConfig {
   icon: string;
 }
 
-export type SectionConfig = TimelineSectionConfig | TasksSectionConfig | CommentSectionConfig;
+export interface ListSectionConfig extends ListConfig {
+  type: 'list';
+}
+
+export type SectionConfig = TimelineSectionConfig | ListSectionConfig | TasksSectionConfig | CommentSectionConfig;
 
 export interface JsonScreenConfig {
   mode: 'currentRecord' | 'subForm';

@@ -12,33 +12,42 @@
       "headerDatePrefix": "Ajoutée",
       "emptyMessage": "Sélectionnez une entreprise",
       "fields": [
-        { "colId": "Statut", "icon": "check_circle", "label": "Statut" },
-        { "colId": "Gravite_max", "icon": "warning", "label": "Gravité max", "readOnly": true },
-        { "colId": "Problematiques", "icon": "label", "label": "Problématiques", "readOnly": true },
-        { "colId": "Secteur", "icon": "factory", "label": "Secteur", "readOnly": true },
-        { "colId": "libelleNAF", "icon": "category", "label": "Activité (NAF)", "readOnly": true },
-        { "colId": "Taille", "icon": "groups", "label": "Taille", "readOnly": true },
-        { "colId": "commune", "icon": "place", "label": "Commune", "readOnly": true },
-        { "colId": "Departement", "icon": "map", "label": "Département", "readOnly": true },
+        { "colId": "statut", "icon": "check_circle", "label": "Statut" },
         { "colId": "siret", "icon": "numbers", "label": "SIRET" },
-        { "colId": "Site_web", "icon": "language", "label": "Site web" },
-        { "colId": "LinkedIn_societe", "icon": "link", "label": "LinkedIn" },
-        { "colId": "Prospection_lancee", "icon": "rocket_launch", "label": "Prospection lancée" },
-        {
-          "colId": "Contacts",
-          "icon": "group",
-          "label": "Contacts",
-          "addLabel": "Ajouter un contact",
-          "refLabelCol": "Nom_complet",
-          "refAddScreen": "ContactSubForm",
-          "refEditScreen": "ContactSubForm"
-        }
+        { "colId": "Secteur", "icon": "domain", "label": "Secteur", "readOnly": true },
+        { "colId": "libelleNAF", "icon": "category", "label": "Activité (NAF)", "readOnly": true },
+        { "colId": "Taille", "icon": "group", "label": "Taille", "readOnly": true },
+        { "colId": "commune", "icon": "place", "label": "Commune", "readOnly": true },
+        { "colId": "codePostal", "icon": "inbox", "label": "Code postal", "readOnly": true },
+        { "colId": "Departement", "icon": "map", "label": "Département", "readOnly": true },
+        { "colId": "Region", "icon": "flag", "label": "Région", "readOnly": true },
+        { "colId": "Site_web", "icon": "link", "label": "Site web" },
+        { "colId": "LinkedIn_societe", "icon": "work", "label": "LinkedIn" },
+        { "colId": "Problematiques", "icon": "label", "label": "Problématiques", "readOnly": true },
+        { "colId": "Gravite_max", "icon": "bolt", "label": "Gravité max", "readOnly": true },
+        { "colId": "Statut_enrichissement", "icon": "search", "label": "Statut enrichissement", "readOnly": true }
       ],
       "sections": [
         {
+          "type": "list",
+          "title": "Contacts",
+          "icon": "person",
+          "table": "Contacts",
+          "filterCol": "Entreprise",
+          "refType": "Ref",
+          "titleCol": "Nom_complet",
+          "subtitleCol": "Poste",
+          "badgeCol": "Suivi_commercial",
+          "mailCol": "Email",
+          "urlCol": "LinkedIn_profil",
+          "addScreen": "ContactSubForm",
+          "editScreen": "ContactSubForm",
+          "emptyMessage": "Aucun contact"
+        },
+        {
           "type": "timeline",
           "title": "Inspections",
-          "icon": "fact_check",
+          "icon": "checklist",
           "table": "Inspections_summary_dateInspection_etablissement_urlRapport",
           "filterCol": "etablissement",
           "refType": "Ref",
@@ -64,7 +73,7 @@
         { "colId": "Nom", "icon": "badge", "label": "Nom" },
         { "colId": "Poste", "icon": "work", "label": "Poste" },
         { "colId": "Email", "icon": "mail", "label": "E-mail", "mailto": true },
-        { "colId": "Email_statut", "icon": "verified", "label": "Fiabilité e-mail" },
+        { "colId": "Email_statut", "icon": "check_circle", "label": "Fiabilité e-mail" },
         { "colId": "Suivi_commercial", "icon": "flag", "label": "Suivi commercial" },
         { "colId": "LinkedIn_profil", "icon": "link", "label": "Profil LinkedIn" }
       ],
@@ -82,10 +91,10 @@
       "titleDefault": "Inspection",
       "titlePlaceholder": "Inspection...",
       "fields": [
-        { "colId": "Gravite", "icon": "warning", "label": "Gravité", "readOnly": true },
+        { "colId": "Gravite", "icon": "bolt", "label": "Gravité", "readOnly": true },
         { "colId": "Problematiques", "icon": "label", "label": "Problématiques", "readOnly": true },
-        { "colId": "count", "icon": "fact_check", "label": "Constats", "readOnly": true },
-        { "colId": "Nb_constats_suites", "icon": "priority_high", "label": "Constats avec suites", "readOnly": true },
+        { "colId": "count", "icon": "checklist", "label": "Constats", "readOnly": true },
+        { "colId": "Nb_constats_suites", "icon": "flag", "label": "Constats avec suites", "readOnly": true },
         { "colId": "Rapport", "icon": "description", "label": "Rapport", "readOnly": true }
       ]
     }
