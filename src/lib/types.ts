@@ -39,8 +39,8 @@ export interface TimelineConfig {
   refType: 'Ref' | 'RefList';
   /** Column holding the item date (Grist Unix timestamp) */
   dateCol: string;
-  /** Column holding the item type/title label */
-  typeCol: string;
+  /** Column holding the item type/title label, shown as chips. No chips when omitted. */
+  typeCol?: string;
   /** Optional column shown as a detail line with an arrow icon */
   detailCol?: string;
   /** Screen pushed when the add button is clicked */

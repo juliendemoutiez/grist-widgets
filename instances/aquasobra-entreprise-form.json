@@ -52,12 +52,17 @@
           "filterCol": "etablissement",
           "refType": "Ref",
           "dateCol": "dateInspection",
-          "typeCol": "Etiquettes",
           "detailCol": "Synthese",
           "addScreen": "InspectionSubForm",
           "editScreen": "InspectionSubForm",
           "readOnly": true,
           "emptyMessage": "Aucune inspection"
+        },
+        {
+          "type": "comment",
+          "col": "Commentaires",
+          "title": "Commentaires",
+          "icon": "chat"
         }
       ]
     },

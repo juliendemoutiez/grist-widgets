@@ -67,7 +67,7 @@ export function TimelineSection({ config, filterId }: TimelineProps) {
         }
 
         const dates = table[config.dateCol] as unknown[];
-        const types = table[config.typeCol] as unknown[];
+        const types = config.typeCol ? table[config.typeCol] as unknown[] : null;
         const details = config.detailCol ? table[config.detailCol] as unknown[] : null;
         const deleted = config.deletedCol ? table[config.deletedCol] as unknown[] : null;
 
