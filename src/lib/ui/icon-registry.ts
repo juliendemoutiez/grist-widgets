@@ -1,6 +1,6 @@
 import {
   AlignLeft, Archive, ArrowDownAZ, ArrowLeft, ArrowRight, ArrowUpDown, Bold, Briefcase,
-  Building2, CalendarCheck, CalendarDays, CalendarRange, Check, ChevronDown, ChevronLeft,
+  Building2, Calendar, CalendarCheck, CalendarDays, CalendarRange, Check, ChevronDown, ChevronLeft,
   ChevronRight, Circle, CircleCheck, Clock, Code, Ellipsis, Euro, FileText, Flag, FolderOpen,
   GripVertical, Hash, IdCard, Inbox, Italic, Link, List, ListChecks, ListFilter, ListOrdered,
   Mail, Map, MapPin, Menu, MessageSquare, MessagesSquare, Minus, Pencil, Plus, Quote,
@@ -26,6 +26,7 @@ const ICONS: Record<string, IconComponent> = {
   arrow_forward:        ArrowRight,
   badge:                IdCard,
   bolt:                 Zap,
+  calendar:             Calendar,
   calendar_today:       CalendarDays,
   calendar_view_week:   CalendarRange,
   category:             Shapes,

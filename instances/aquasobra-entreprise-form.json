@@ -80,7 +80,8 @@
         { "colId": "Email", "icon": "mail", "label": "E-mail", "mailto": true },
         { "colId": "Email_statut", "icon": "check_circle", "label": "Fiabilité e-mail" },
         { "colId": "Suivi_commercial", "icon": "flag", "label": "Suivi commercial" },
-        { "colId": "LinkedIn_profil", "icon": "link", "label": "Profil LinkedIn" }
+        { "colId": "LinkedIn_profil", "icon": "link", "label": "Profil LinkedIn" },
+        { "colId": "Date_derniere_relance", "icon": "calendar", "label": "Date dernière relance" }
       ],
       "sections": [
         { "type": "comment", "col": "Message_Linkedin", "title": "Message LinkedIn", "icon": "chat" },
