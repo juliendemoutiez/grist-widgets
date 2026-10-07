@@ -31,6 +31,7 @@ widget côté Grist. Les configurations utilisées en production sont archivées
 | `ma-boussole-organisation-form.json` | nested-form | fiche d'une organisation (table `Organisations`) — contacts, timeline des interactions |
 | `ma-boussole-kanban.json` | kanban | organisations par statut (table `Organisations`) |
 | `aquasobra-entreprise-form.json` | nested-form | fiche d'une entreprise (table `Entreprises`) — contacts, timeline des rapports d'inspection (table de synthèse de `Inspections`) |
+| `ecodo-accompagnements-form.json` | nested-form | fiche d'un accompagnement (table `Accompagnements`) — volumes et potentiels d'économie d'eau, sous-fiche de l'entreprise (table `Entreprises`) |
 
 Pour l'appliquer : ouvrir le widget dans Grist, coller le contenu du fichier dans les
 options, et mapper les colonnes citées par la configuration.
