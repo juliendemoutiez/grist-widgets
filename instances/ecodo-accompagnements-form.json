@@ -4,10 +4,9 @@
     "AccompagnementForm": {
       "mode": "currentRecord",
       "table": "Accompagnements",
-      "titleColId": "Type_d_accompagnement",
-      "titleReadOnly": true,
-      "titleDefault": "Accompagnement",
-      "titlePlaceholder": "Accompagnement...",
+      "titleText": "Accompagnements",
+      "titleDefault": "Accompagnements",
+      "titlePlaceholder": "Accompagnements",
       "newRecordLabel": "Nouvel accompagnement",
       "emptyMessage": "Sélectionnez un accompagnement",
       "fields": [
@@ -23,7 +22,7 @@
         { "colId": "Edition", "icon": "calendar_today", "label": "Édition" },
         { "colId": "Type_d_accompagnement", "icon": "category", "label": "Type d'accompagnement" },
         { "colId": "Conseiller_s_", "icon": "group", "label": "Conseiller(s)" },
-        { "colId": "Annee_des_donnees_initiales", "icon": "event", "label": "Année des données initiales" },
+        { "colId": "Annee_des_donnees_initiales", "icon": "calendar", "label": "Année des données initiales" },
         { "colId": "Volume_AEP_m3_", "icon": "water_drop", "label": "Volume AEP (m³)" },
         { "colId": "Volume_Milieu_naturel_m3_", "icon": "water", "label": "Volume milieu naturel (m³)" },
         { "colId": "Volume_ENC_REUT_Eau_de_pluie_m3_", "icon": "recycling", "label": "Volume ENC / REUT / eau de pluie (m³)" },

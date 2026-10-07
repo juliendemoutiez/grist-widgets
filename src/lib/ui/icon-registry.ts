@@ -1,11 +1,11 @@
 import {
-  AlignLeft, Archive, ArrowDownAZ, ArrowLeft, ArrowRight, ArrowUpDown, Bold, Briefcase,
+  AlignLeft, Archive, ArrowDownAZ, ArrowLeft, ArrowLeftRight, ArrowRight, ArrowUpDown, Bold, Briefcase,
   Building2, Calendar, CalendarCheck, CalendarDays, CalendarRange, Check, ChevronDown, ChevronLeft,
-  ChevronRight, Circle, CircleCheck, Clock, Code, Ellipsis, Euro, FileText, Flag, FolderOpen,
+  ChevronRight, Circle, CircleCheck, Clock, CloudRain, Code, Droplet, Ellipsis, Euro, FileText, Flag, FolderOpen,
   GripVertical, Hash, IdCard, Inbox, Italic, Link, List, ListChecks, ListFilter, ListOrdered,
-  Mail, Map, MapPin, Menu, MessageSquare, MessagesSquare, Minus, Pencil, Plus, Quote,
-  RefreshCw, Search, Send, Settings, Shapes, SquarePen, Strikethrough, Tag, Tags, Trash2,
-  User, Users, X, Zap,
+  Mail, Map, MapPin, Menu, MessageSquare, MessagesSquare, Minus, Pencil, PiggyBank, Plus, Quote,
+  Recycle, RefreshCw, Repeat, Search, Send, Settings, Shapes, SquarePen, Strikethrough, Tag, Tags, Trash2,
+  User, Users, Waves, X, Zap,
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import type { ComponentType } from 'react';
@@ -24,6 +24,7 @@ const ICONS: Record<string, IconComponent> = {
   add:                  Plus,
   arrow_back:           ArrowLeft,
   arrow_forward:        ArrowRight,
+  autorenew:            Repeat,
   badge:                IdCard,
   bolt:                 Zap,
   calendar:             Calendar,
@@ -69,16 +70,22 @@ const ICONS: Record<string, IconComponent> = {
   numbers:              Hash,
   person:               User,
   place:                MapPin,
+  rainy:                CloudRain,
+  recycling:            Recycle,
   schedule:             Clock,
   search:               Search,
+  savings:              PiggyBank,
   sell:                 Tags,
   send:                 Send,
   settings:             Settings,
   sort_by_alpha:        ArrowDownAZ,
   subject:              AlignLeft,
+  swap_horiz:           ArrowLeftRight,
   swap_vert:            ArrowUpDown,
   sync:                 RefreshCw,
   today:                CalendarCheck,
+  water:                Waves,
+  water_drop:           Droplet,
   work:                 Briefcase,
 };
 

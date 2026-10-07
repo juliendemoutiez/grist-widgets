@@ -39,7 +39,8 @@ function validateConfig(parsed: unknown): string | null {
       return `Screen "${name}".mode must be "currentRecord" or "subForm"`;
     if (typeof s.table !== 'string') return `Screen "${name}".table must be a string`;
     if (!Array.isArray(s.fields)) return `Screen "${name}".fields must be an array`;
-    if (typeof s.titleColId !== 'string') return `Screen "${name}".titleColId must be a string`;
+    if (typeof s.titleColId !== 'string' && typeof s.titleText !== 'string')
+      return `Screen "${name}" needs a "titleColId" or a "titleText" string`;
     if (s.alertColId !== undefined && typeof s.alertColId !== 'string')
       return `Screen "${name}".alertColId must be a string`;
     if (s.sections !== undefined) {
@@ -89,10 +90,11 @@ function ScreenRenderer({ screens }: { screens: Record<string, JsonScreenConfig>
         const formConfig = {
           table: screen.table,
           fields: screen.fields,
-          titleColId: screen.titleColId,
+          titleColId: screen.titleColId ?? '',
           titleDefault: screen.titleDefault,
           titlePlaceholder: screen.titlePlaceholder,
-          titleReadOnly: screen.titleReadOnly,
+          titleReadOnly: screen.titleReadOnly || screen.titleText != null,
+          titleFormula: screen.titleText != null ? () => screen.titleText! : undefined,
           titlePrefix: screen.titlePrefix,
           headerDateColId: screen.headerDateColId,
           headerDatePrefix: screen.headerDatePrefix,

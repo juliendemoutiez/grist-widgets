@@ -132,10 +132,13 @@ export interface JsonScreenConfig {
   mode: 'currentRecord' | 'subForm';
   table: string;
   fields: FieldDef[];
-  titleColId: string;
+  /** Optional only when titleText is set. */
+  titleColId?: string;
   titleDefault: string;
   titlePlaceholder: string;
   titleReadOnly?: boolean;
+  /** Fixed header title, e.g. "Accompagnements": read-only, never written to a column. */
+  titleText?: string;
   /** Prepended to the formatted titleColId date value, e.g. "Interaction du ". */
   titlePrefix?: string;
   headerDateColId?: string;

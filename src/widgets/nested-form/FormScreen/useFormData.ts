@@ -91,7 +91,8 @@ export function useFormData(config: FormConfig, mode: 'currentRecord' | 'subForm
     if (mode !== 'currentRecord' || recordId == null || !record) return;
     let cancelled = false;
 
-    setTitle(record[config.titleColId] != null ? String(record[config.titleColId]) : '');
+    if (config.titleFormula) setTitle(config.titleFormula({}));
+    else setTitle(record[config.titleColId] != null ? String(record[config.titleColId]) : '');
 
     const sanitize = (v: unknown) =>
       v == null || (typeof v === 'number' && isNaN(v)) ? null : v;
@@ -365,13 +366,16 @@ export function useFormData(config: FormConfig, mode: 'currentRecord' | 'subForm
 
   const handleNewRecord = useCallback(async () => {
     try {
-      const newId = await createRecord(config.table, { [config.titleColId]: config.titleDefault });
+      const newId = await createRecord(
+        config.table,
+        config.titleReadOnly ? {} : { [config.titleColId]: config.titleDefault },
+      );
       await new Promise((r) => setTimeout(r, 300));
       await setCursorPos(newId);
     } catch (err) {
       console.warn('[useFormData] Failed to create new record:', err);
     }
-  }, [createRecord, setCursorPos, config.table, config.titleColId, config.titleDefault]);
+  }, [createRecord, setCursorPos, config.table, config.titleColId, config.titleDefault, config.titleReadOnly]);
 
   // ── Ref navigation ───────────────────────────────────────────────────────────
 
