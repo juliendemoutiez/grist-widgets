@@ -350,10 +350,10 @@ export function FormField({ colId: _colId, icon, label, value, onChange, onBlur,
           type="number"
           className="meta-row__input"
           value={numValue}
-          style={{ width: `${Math.max(String(numValue || '0').length + 2, 3)}ch` }}
+          style={{ width: `${Math.max(String(numValue || 'Vide').length + 2, 3)}ch` }}
           min={0}
           step={type === 'Int' ? 1 : undefined}
-          placeholder="0"
+          placeholder="Vide"
           onKeyDown={(e) => {
             if (e.key === 'Enter') (e.target as HTMLElement).blur();
           }}
@@ -381,7 +381,7 @@ export function FormField({ colId: _colId, icon, label, value, onChange, onBlur,
         <DatePickerSelect
           value={value as number | null}
           onChange={(v) => { onChange(v); onBlur?.(); }}
-          placeholder={label}
+          placeholder="Choisir..."
           required={required}
         />
       </FormRow>
@@ -473,7 +473,7 @@ export function FormField({ colId: _colId, icon, label, value, onChange, onBlur,
           className="meta-row__input"
           value={strValue}
           autoFocus={hlEditing}
-          placeholder={label}
+          placeholder="Vide"
           onKeyDown={(e) => { if (e.key === 'Enter') (e.target as HTMLElement).blur(); }}
           onBlur={() => { setHlEditing(false); onBlur?.(); }}
           onChange={(e) => { setHlEditing(true); onChange(e.target.value); }}
@@ -509,7 +509,7 @@ export function FormField({ colId: _colId, icon, label, value, onChange, onBlur,
         type="text"
         className="meta-row__input"
         value={strValue}
-        placeholder={label}
+        placeholder="Vide"
         onKeyDown={(e) => {
           if (e.key === 'Enter') (e.target as HTMLElement).blur();
         }}
