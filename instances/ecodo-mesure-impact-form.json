@@ -1,0 +1,59 @@
+{
+  "initialScreen": "MesureImpactForm",
+  "screens": {
+    "MesureImpactForm": {
+      "mode": "currentRecord",
+      "table": "Mesure_d_impact",
+      "titleText": "Mesure d'impact",
+      "titleDefault": "Mesure d'impact",
+      "titlePlaceholder": "Mesure d'impact",
+      "newRecordLabel": "Nouvelle mesure d'impact",
+      "emptyMessage": "Sélectionnez une mesure d'impact",
+      "fields": [
+        {
+          "colId": "Entreprise",
+          "icon": "domain",
+          "label": "Entreprise",
+          "addLabel": "Ajouter une entreprise",
+          "refLabelCol": "Raison_sociale",
+          "refAddScreen": "EntrepriseSubForm",
+          "refEditScreen": "EntrepriseSubForm"
+        },
+        { "colId": "Annee_mesure_", "icon": "calendar", "label": "Année de mesure" },
+        { "colId": "Volume_AEP_m3_", "icon": "water_drop", "label": "Volume AEP (m³)" },
+        { "colId": "Volume_Milieu_naturel_m3_", "icon": "water", "label": "Volume milieu naturel (m³)" },
+        { "colId": "Volume_ENC_REUT_Eau_de_pluie_m3_", "icon": "recycling", "label": "Volume ENC / REUT / eau de pluie (m³)" },
+        { "colId": "Volume_economise_depuis_mesure_initiale", "icon": "savings", "label": "Volume économisé depuis la mesure initiale" },
+        { "colId": "Action_s_realisee_s_", "icon": "checklist", "label": "Action(s) réalisée(s)" },
+        { "colId": "Demande_de_subvention_AELB", "icon": "euro", "label": "Demande de subvention AELB" },
+        { "colId": "Source_de_connaissance_du_programme", "icon": "campaign", "label": "Source de connaissance du programme" },
+        { "colId": "Niveau_de_satisfaction_du_programme", "icon": "sentiment_satisfied", "label": "Niveau de satisfaction du programme" }
+      ],
+      "sections": [
+        {
+          "type": "comment",
+          "col": "Commentaires",
+          "title": "Commentaires",
+          "icon": "chat"
+        }
+      ]
+    },
+    "EntrepriseSubForm": {
+      "mode": "subForm",
+      "table": "Entreprises",
+      "titleColId": "Raison_sociale",
+      "titleDefault": "Nouvelle entreprise",
+      "titlePlaceholder": "Raison sociale...",
+      "fields": [
+        { "colId": "N_SIRET", "icon": "numbers", "label": "N° SIRET" },
+        { "colId": "Secteur_d_activite", "icon": "domain", "label": "Secteur d'activité" },
+        { "colId": "Code_APE", "icon": "category", "label": "Code APE", "transform": "uppercase" },
+        { "colId": "Nombre_de_salaries", "icon": "group", "label": "Nombre de salariés" },
+        { "colId": "Ville", "icon": "place", "label": "Ville" },
+        { "colId": "Code_postal", "icon": "inbox", "label": "Code postal" },
+        { "colId": "EPCI", "icon": "flag", "label": "EPCI" },
+        { "colId": "Departement", "icon": "map", "label": "Département" }
+      ]
+    }
+  }
+}

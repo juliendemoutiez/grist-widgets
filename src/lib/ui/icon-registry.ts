@@ -3,8 +3,8 @@ import {
   Building2, Calendar, CalendarCheck, CalendarDays, CalendarRange, Check, ChevronDown, ChevronLeft,
   ChevronRight, Circle, CircleCheck, Clock, CloudRain, Code, Droplet, Ellipsis, Euro, FileText, Flag, FolderOpen,
   GripVertical, Hash, IdCard, Inbox, Italic, Link, List, ListChecks, ListFilter, ListOrdered,
-  Mail, Map, MapPin, Menu, MessageSquare, MessagesSquare, Minus, Pencil, PiggyBank, Plus, Quote,
-  Recycle, RefreshCw, Repeat, Search, Send, Settings, Shapes, SquarePen, Strikethrough, Tag, Tags, Trash2,
+  Mail, Map, MapPin, Megaphone, Menu, MessageSquare, MessagesSquare, Minus, Pencil, PiggyBank, Plus, Quote,
+  Recycle, RefreshCw, Repeat, Search, Send, Settings, Shapes, Smile, SquarePen, Strikethrough, Tag, Tags, Trash2,
   User, Users, Waves, X, Zap,
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
@@ -30,6 +30,7 @@ const ICONS: Record<string, IconComponent> = {
   calendar:             Calendar,
   calendar_today:       CalendarDays,
   calendar_view_week:   CalendarRange,
+  campaign:             Megaphone,
   category:             Shapes,
   chat:                 MessageSquare,
   check:                Check,
@@ -77,6 +78,7 @@ const ICONS: Record<string, IconComponent> = {
   savings:              PiggyBank,
   sell:                 Tags,
   send:                 Send,
+  sentiment_satisfied:  Smile,
   settings:             Settings,
   sort_by_alpha:        ArrowDownAZ,
   subject:              AlignLeft,
