@@ -76,6 +76,8 @@ declare module 'grist-plugin-api' {
         includeColumns?: 'shown' | 'normal' | 'all';
         /** true (default): Ref values are replaced by their display value; false: row ids. */
         expandRefs?: boolean;
+        /** 'normal': values as stored (Ref = bare row id); default re-encodes Ref as ['R', table, id]. */
+        cellFormat?: 'normal' | 'typed';
       },
     ): Promise<RowRecord>;
 

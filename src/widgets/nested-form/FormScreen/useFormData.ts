@@ -94,8 +94,12 @@ export function useFormData(config: FormConfig, mode: 'currentRecord' | 'subForm
     if (config.titleFormula) setTitle(config.titleFormula({}));
     else setTitle(record[config.titleColId] != null ? String(record[config.titleColId]) : '');
 
-    const sanitize = (v: unknown) =>
-      v == null || (typeof v === 'number' && isNaN(v)) ? null : v;
+    const sanitize = (v: unknown) => {
+      if (v == null || (typeof v === 'number' && isNaN(v))) return null;
+      // Encoded Ref ['R', table, id], should a Grist version ignore cellFormat: 'normal'.
+      if (Array.isArray(v) && v[0] === 'R') return v[2] ?? null;
+      return v;
+    };
 
     // grist.onRecord (keepEncoded:false) decodes RefList to display labels and DateTime to
     // Date objects — neither is what our field renderers expect. fetchLinkedRow returns the raw

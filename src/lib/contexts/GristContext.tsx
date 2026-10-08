@@ -161,9 +161,12 @@ export function GristProvider({ children, allowSelectBy }: { children: ReactNode
 
   const fetchLinkedRow = useCallback(async (rowId: number) => {
     if (!grist) throw new Error('Grist API not available');
-    // expandRefs defaults to true, which replaces Ref values with their display label:
-    // the form needs the row id to select the option and to save it back.
-    return grist.fetchSelectedRecord(rowId, { keepEncoded: true, includeColumns: 'all', expandRefs: false });
+    // expandRefs defaults to true, which replaces Ref values with their display label, and
+    // the default cellFormat re-encodes a Ref id as ['R', table, id]: the form needs the bare
+    // row id, as stored, to select the option and to save it back.
+    return grist.fetchSelectedRecord(rowId, {
+      keepEncoded: true, includeColumns: 'all', expandRefs: false, cellFormat: 'normal',
+    });
   }, []);
 
   const createRecord = useCallback(async (tableId: string, fields: Record<string, unknown>) => {
