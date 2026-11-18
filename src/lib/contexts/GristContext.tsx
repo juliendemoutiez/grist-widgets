@@ -56,6 +56,17 @@ interface GristContextValue {
    * Use this when onRecord/allRecords may be missing hidden columns.
    */
   fetchCurrentTable: () => Promise<RowRecord[]>;
+  /** Upload files to the document's attachments, returns their ids (to store in an Attachments cell). */
+  uploadAttachments: (files: File[]) => Promise<number[]>;
+  /** Fetch file name and size of attachments, keyed by id. Unknown ids are left out. */
+  fetchAttachmentsMeta: (ids: number[]) => Promise<Record<number, AttachmentMeta>>;
+  /** Download URL of an attachment, signed with a short-lived access token. */
+  getAttachmentUrl: (id: number) => Promise<string>;
+}
+
+export interface AttachmentMeta {
+  fileName: string;
+  fileSize: number;
 }
 
 const GristContext = createContext<GristContextValue | null>(null);
@@ -108,6 +119,14 @@ export function GristProvider({ children, allowSelectBy }: { children: ReactNode
       }
       tableCache.current.clear();
       setRecord(data);
+      setIsReady(true);
+    });
+    // The cursor lands on the "new" row when the linked table has no row for the selected
+    // parent: Grist then calls onNewRecord, never onRecord, so the previous record must be
+    // dropped here or it stays displayed.
+    grist.onNewRecord(() => {
+      tableCache.current.clear();
+      setRecord(null);
       setIsReady(true);
     });
     grist.onRecords((records) => {
@@ -229,16 +248,60 @@ export function GristProvider({ children, allowSelectBy }: { children: ReactNode
     });
   }, []);
 
+  // Attachments go through the document REST API, which needs an access token.
+  // Tokens are short-lived: reuse one until shortly before it expires.
+  const tokenRef = useRef<{ token: string; baseUrl: string; expiresAt: number } | null>(null);
+  const getToken = useCallback(async () => {
+    if (!grist) throw new Error('Grist API not available');
+    const cached = tokenRef.current;
+    if (cached && Date.now() < cached.expiresAt) return cached;
+    const { token, baseUrl, ttlMsecs } = await grist.docApi.getAccessToken({ readOnly: false });
+    const fresh = { token, baseUrl, expiresAt: Date.now() + Math.max((ttlMsecs ?? 0) - 60_000, 0) };
+    tokenRef.current = fresh;
+    return fresh;
+  }, []);
+
+  const uploadAttachments = useCallback(async (files: File[]) => {
+    const { token, baseUrl } = await getToken();
+    const body = new FormData();
+    for (const file of files) body.append('upload', file, file.name);
+    const res = await fetch(`${baseUrl}/attachments?auth=${encodeURIComponent(token)}`, { method: 'POST', body });
+    if (!res.ok) throw new Error(`Upload failed (${res.status}): ${await res.text()}`);
+    return (await res.json()) as number[];
+  }, [getToken]);
+
+  const fetchAttachmentsMeta = useCallback(async (ids: number[]) => {
+    const { token, baseUrl } = await getToken();
+    const entries = await Promise.all(ids.map(async (id) => {
+      try {
+        const res = await fetch(`${baseUrl}/attachments/${id}?auth=${encodeURIComponent(token)}`);
+        if (!res.ok) return null;
+        const meta = await res.json() as AttachmentMeta;
+        return [id, { fileName: meta.fileName, fileSize: meta.fileSize }] as const;
+      } catch {
+        return null;
+      }
+    }));
+    return Object.fromEntries(entries.filter((e) => e !== null)) as Record<number, AttachmentMeta>;
+  }, [getToken]);
+
+  const getAttachmentUrl = useCallback(async (id: number) => {
+    const { token, baseUrl } = await getToken();
+    return `${baseUrl}/attachments/${id}/download?auth=${encodeURIComponent(token)}`;
+  }, [getToken]);
+
   const contextValue = useMemo(() => ({
     record, allRecords, isReady, dataVersion, widgetOptions, saveWidgetOptions,
     isConfiguringWidget, setIsConfiguringWidget,
     updateCurrentRecord, updateLinkedRecord, createLinkedRecord, deleteLinkedRecord,
     fetchTable, fetchLinkedRow, createRecord, updateRecord, deleteRecord, updateColumnWidgetOptions,
     setCursorPos, setSelectedRows, fetchCurrentTable,
+    uploadAttachments, fetchAttachmentsMeta, getAttachmentUrl,
   }), [record, allRecords, isReady, dataVersion, widgetOptions, saveWidgetOptions,
     isConfiguringWidget, updateCurrentRecord, updateLinkedRecord, createLinkedRecord,
     deleteLinkedRecord, fetchTable, fetchLinkedRow, createRecord, updateRecord, deleteRecord,
-    updateColumnWidgetOptions, setCursorPos, setSelectedRows, fetchCurrentTable]);
+    updateColumnWidgetOptions, setCursorPos, setSelectedRows, fetchCurrentTable,
+    uploadAttachments, fetchAttachmentsMeta, getAttachmentUrl]);
 
   return (
     <GristContext.Provider value={contextValue}>

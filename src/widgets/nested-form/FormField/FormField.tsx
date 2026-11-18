@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Avatar, Icon } from '@lib';
 import { PickerSelect, DatePickerSelect, useGrist, parseRefTarget, parseRefListTarget, decodeRefList, decodeChoiceList, formatDateTime, formatDate, toDateTimeLocal, fromDateTimeLocal, parseHyperlink, getHyperlinkDisplay, applyTransform } from '@lib';
 import type { PickerOption, ColumnMeta } from '@lib';
+import { AttachmentsField } from './AttachmentsField';
 
 interface FormFieldProps {
   colId: string;
@@ -136,6 +137,14 @@ export function FormField({ colId: _colId, icon, label, value, onChange, onBlur,
   const { options: refOptions, loading: refLoading } = useRefOptions(refTarget ?? refListTarget, refReloadTrigger, refLabelCol);
   const [hlEditing, setHlEditing] = useState(false);
   const [extraChoices, setExtraChoices] = useState<PickerOption[]>([]);
+
+  if (type === 'Attachments') {
+    return (
+      <FormRow icon={icon} label={label}>
+        <AttachmentsField value={value} onChange={onChange} onBlur={onBlur} readOnly={readOnly} />
+      </FormRow>
+    );
+  }
 
   if (type === 'Choice') {
     const baseOptions = buildChoiceOptions(columnMeta!);

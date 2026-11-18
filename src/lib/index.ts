@@ -1,5 +1,6 @@
 // Grist bindings
 export { GristProvider, useGrist } from './contexts/GristContext';
+export type { AttachmentMeta } from './contexts/GristContext';
 export { NavigationProvider, useNavigation } from './contexts/NavigationContext';
 export {
   parseRefTarget, parseRefListTarget, decodeRefList, decodeChoiceList,

@@ -38,7 +38,9 @@ declare module 'grist-plugin-api' {
 
   export interface AccessTokenResult {
     token: string;
+    /** Document REST endpoint, e.g. https://host/api/docs/<docId>. */
     baseUrl: string;
+    ttlMsecs: number;
   }
 
   export interface DocApi {
