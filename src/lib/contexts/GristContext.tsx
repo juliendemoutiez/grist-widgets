@@ -265,7 +265,13 @@ export function GristProvider({ children, allowSelectBy }: { children: ReactNode
     const { token, baseUrl } = await getToken();
     const body = new FormData();
     for (const file of files) body.append('upload', file, file.name);
-    const res = await fetch(`${baseUrl}/attachments?auth=${encodeURIComponent(token)}`, { method: 'POST', body });
+    // Grist rejects a POST without this header (CSRF protection) with a 401, which the
+    // browser then reports as a CORS error since the error response has no CORS headers.
+    const res = await fetch(`${baseUrl}/attachments?auth=${encodeURIComponent(token)}`, {
+      method: 'POST',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      body,
+    });
     if (!res.ok) throw new Error(`Upload failed (${res.status}): ${await res.text()}`);
     return (await res.json()) as number[];
   }, [getToken]);
